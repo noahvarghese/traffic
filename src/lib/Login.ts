@@ -17,7 +17,7 @@ export const generateToken = () => {
         const authHeader = oauth.getHeader(
             {
                 method: "POST",
-                url: process.env.ENDPOINT_URL!,
+                url: process.env.TOKEN_URL!,
             },
             {
                 key: "",
@@ -28,7 +28,7 @@ export const generateToken = () => {
 
         axios
             .post(
-                process.env.ENDPOINT_URL!,
+                process.env.TOKEN_URL!,
                 { grantType: "client_credentials" },
                 {
                     headers: { Authorization: authHeader },
