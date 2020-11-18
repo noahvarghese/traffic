@@ -10,7 +10,7 @@ dotenv.config({ path: __dirname + "/.env" });
         __dirname + "/data/Road_Network.csv"
     )) as any[];
     console.log(Object.keys(mapData[0]));
-    console.log(mapData[0].ROUTE, mapData[0].SHAPESTLength);
+    console.log(mapData.find((item) => item.ROUTE === "WESTOAK TRAILS BLVD"));
     const app = express();
     const port = 4000;
 
