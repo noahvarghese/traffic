@@ -1,12 +1,11 @@
+import { rejects } from "assert";
 import axios from "axios";
 import OAuth from "node-oauth-1.0a-ts";
-import * as dotenv from "dotenv";
-dotenv.config({ path: __dirname + "/../.env" });
 
 export const generateToken = (
-    id: string = process.env.ACCESS_KEY_ID!,
-    secret: string = process.env.ACCESS_KEY_SECRET!,
-    url: string = process.env.TOKEN_URL!
+    id: string,
+    secret: string,
+    url: string
 ): Promise<string> => {
     return new Promise((resolve, _) => {
         const oauth = new OAuth({
@@ -39,6 +38,6 @@ export const generateToken = (
                 }
             )
             .then((res) => resolve(res.data.accessToken))
-            .catch((err) => console.log(err));
+            .catch((err) => rejects(err));
     });
 };

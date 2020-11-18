@@ -3,6 +3,7 @@ import axios from "axios";
 import { writeData } from "./File";
 
 const hereUrl = "https://traffic.ls.hereapi.com/traffic/6.2/flow.json";
+export const hereTokenURL = "https://account.api.here.com/oauth2/token";
 
 // Sample query
 // "https://traffic.ls.hereapi.com/traffic/6.2/flow.xml?bbox=43.433981,-79.810854;43.480386,-79.626178";

@@ -6,7 +6,8 @@ export const writeData = (
     path: string = `${__dirname}/data/`
 ): Promise<boolean> => {
     return new Promise((res, _) => {
-        fs.writeFile(fileName, data, "utf8", () => {
+        const filePath = path + fileName;
+        fs.writeFile(filePath, data, "utf8", () => {
             res(true);
         });
     });
