@@ -14,6 +14,7 @@
     "license": "ISC",
     "dependencies": {
         "axios": "^0.21.0",
+        "csv-parser": "^2.3.3",
         "express": "^4.17.1",
         "node-oauth-1.0a-ts": "^4.0.5"
     },
