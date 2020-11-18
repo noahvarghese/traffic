@@ -1,6 +1,4 @@
 import express from "express";
-import fs from "fs";
-// import axios from "axios";
 import * as dotenv from "dotenv";
 import { generateToken } from "./lib/Login";
 import { getFlowData, hereTokenURL } from "./lib/HERE";
