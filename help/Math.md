@@ -1,10 +1,10 @@
 # MATH
 
-==============================
+===
 
 ## Requirements
 
-==============================
+===
 
 ### Create Traffic
 
@@ -15,7 +15,6 @@
     - A* to find the optimal path
     	- use flow from HERE api
     	- use manhattan distance
-
 
 ### Road Map as Graph (set of edges and vertices)
 

@@ -3,12 +3,16 @@ import OAuth from "node-oauth-1.0a-ts";
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + "/../.env" });
 
-export const generateToken = () => {
+export const generateToken = (
+    id: string = process.env.ACCESS_KEY_ID!,
+    secret: string = process.env.ACCESS_KEY_SECRET!,
+    url: string = process.env.TOKEN_URL!
+): Promise<string> => {
     return new Promise((resolve, _) => {
         const oauth = new OAuth({
             consumer: {
-                public: process.env.ACCESS_KEY_ID!,
-                secret: process.env.ACCESS_KEY_SECRET!,
+                public: id,
+                secret,
             },
             signature_method: "HMAC-SHA256",
             version: "1.0",
@@ -17,7 +21,7 @@ export const generateToken = () => {
         const authHeader = oauth.getHeader(
             {
                 method: "POST",
-                url: process.env.TOKEN_URL!,
+                url,
             },
             {
                 key: "",
@@ -28,7 +32,7 @@ export const generateToken = () => {
 
         axios
             .post(
-                process.env.TOKEN_URL!,
+                url,
                 { grantType: "client_credentials" },
                 {
                     headers: { Authorization: authHeader },
