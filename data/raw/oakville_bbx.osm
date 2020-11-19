@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.8.3 (960763 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <relation id="2407500" visible="true" version="38" changeset="87074807" timestamp="2020-06-24T09:14:12Z" user="kartler175" uid="834127">
+  <member type="way" ref="180434762" role="outer"/>
+<way id="180434762" visible="true" version="6" changeset="87074807" timestamp="2020-06-24T09:14:12Z" user="kartler175" uid="834127">
+<nd ref="1462153372"/>
+<nd ref="3189027373"/>
+<nd ref="369308560"/>
+</way>
+  <member type="way" ref="132911036" role="outer"/>
+  <member type="way" ref="132910899" role="outer"/>
+  <member type="way" ref="449403355" role="outer"/>
+  <member type="way" ref="132910697" role="outer"/>
+  <member type="way" ref="449403352" role="outer"/>
+  <member type="way" ref="449403353" role="outer"/>
+  <member type="way" ref="449403354" role="outer"/>
+  <member type="way" ref="446183448" role="outer"/>
+  <member type="way" ref="454991725" role="outer"/>
+  <member type="way" ref="455104313" role="outer"/>
+  <member type="way" ref="446183446" role="outer"/>
+  <member type="way" ref="446183447" role="outer"/>
+  <member type="way" ref="10318448" role="outer"/>
+  <member type="way" ref="446202917" role="outer"/>
+  <member type="way" ref="132910687" role="outer"/>
+  <member type="way" ref="24742319" role="outer"/>
+  <member type="way" ref="669251375" role="outer"/>
+  <member type="way" ref="24742320" role="outer"/>
+  <member type="way" ref="238827135" role="outer"/>
+  <member type="way" ref="10277681" role="outer"/>
+  <member type="way" ref="669251376" role="outer"/>
+  <member type="way" ref="669251373" role="outer"/>
+  <member type="way" ref="132910285" role="outer"/>
+  <member type="way" ref="478230973" role="outer"/>
+  <member type="way" ref="191647646" role="outer"/>
+  <member type="way" ref="369611940" role="outer"/>
+  <member type="way" ref="369611941" role="outer"/>
+  <member type="way" ref="5229452" role="outer"/>
+  <member type="way" ref="132910286" role="outer"/>
+  <member type="way" ref="369611945" role="outer"/>
+  <member type="way" ref="369611936" role="outer"/>
+  <member type="way" ref="361444891" role="outer"/>
+  <member type="way" ref="492964862" role="outer"/>
+  <member type="way" ref="492964863" role="outer"/>
+  <member type="way" ref="499605569" role="outer"/>
+  <member type="way" ref="5229451" role="outer"/>
+  <member type="way" ref="202018598" role="outer"/>
+  <member type="way" ref="203766484" role="outer"/>
+  <member type="way" ref="203766482" role="outer"/>
+  <member type="way" ref="110346205" role="outer"/>
+  <member type="way" ref="443967291" role="outer"/>
+  <member type="way" ref="201307715" role="outer"/>
+  <member type="way" ref="35883421" role="outer"/>
+  <member type="way" ref="201307716" role="outer"/>
+  <member type="way" ref="201309316" role="outer"/>
+  <member type="way" ref="189723613" role="outer"/>
+  <member type="way" ref="201309320" role="outer"/>
+  <member type="way" ref="257003843" role="outer"/>
+  <member type="way" ref="218678855" role="outer"/>
+  <member type="way" ref="163268202" role="outer"/>
+  <member type="way" ref="163268209" role="outer"/>
+  <member type="way" ref="201429920" role="outer"/>
+  <member type="way" ref="55251950" role="outer"/>
+  <member type="way" ref="55251949" role="outer"/>
+  <member type="way" ref="163267568" role="outer"/>
+  <member type="way" ref="201429939" role="outer"/>
+  <member type="way" ref="259799764" role="outer"/>
+  <member type="way" ref="201429916" role="outer"/>
+  <member type="way" ref="163267569" role="outer"/>
+  <member type="way" ref="370270184" role="outer"/>
+  <member type="way" ref="201439262" role="outer"/>
+  <member type="way" ref="201439251" role="outer"/>
+  <member type="way" ref="201439253" role="outer"/>
+  <member type="way" ref="370270187" role="outer"/>
+  <member type="way" ref="201439261" role="outer"/>
+  <member type="way" ref="180030531" role="outer"/>
+  <member type="way" ref="201439250" role="outer"/>
+  <member type="way" ref="201451525" role="outer"/>
+  <member type="way" ref="55884546" role="outer"/>
+  <member type="way" ref="35471485" role="outer"/>
+  <member type="way" ref="201451529" role="outer"/>
+  <member type="way" ref="201715978" role="outer"/>
+  <member type="way" ref="78059154" role="outer"/>
+  <member type="way" ref="174696735" role="outer"/>
+  <member type="way" ref="78060557" role="outer"/>
+  <member type="way" ref="30735210" role="outer"/>
+  <member type="way" ref="30735211" role="outer"/>
+  <member type="way" ref="201715991" role="outer"/>
+  <tag k="admin_level" v="8"/>
+  <tag k="boundary" v="administrative"/>
+  <tag k="name" v="Oakville"/>
+  <tag k="place" v="town"/>
+  <tag k="population" v="193832"/>
+  <tag k="population:date" v="2016"/>
+  <tag k="source:population" v="DBpedia"/>
+  <tag k="type" v="boundary"/>
+  <tag k="website" v="https://www.oakville.ca/"/>
+  <tag k="wikipedia" v="en:Oakville, Ontario"/>
+ </relation>
+</osm>

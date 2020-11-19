@@ -13,7 +13,7 @@ export const getFlowData = (bbox: string, token: string): Promise<string> => {
         axios
             .get(hereUrl, {
                 headers: { Authorization: `Bearer ${token}` },
-                data: { bbox },
+                params: { bbox },
             })
             .then((res) => res.data)
             .then(async (data) => {
