@@ -1,6 +1,6 @@
 #!/opt/anaconda/bin/python3.8
 
-import osmnx as ox
+import osmnx
 import networkx as nx
 import plotly.graph_objects as go
 import numpy as np
