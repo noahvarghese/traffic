@@ -273,7 +273,7 @@ def euclidian_distance(Node1, Node2):
 
 	return Math.sqrt((latitude1) - latitude2) ^ 2 + (longitude1 - longitude2) ^ 2)
 	return Math.sqrt((Node1.latitude - Node2.latitude) ^ 2 + (Node1.longitude - Node2.longitude) ^ 2)
-	
+
 distance = euclidian_distance()
 
 def num_cars(distance):
@@ -385,16 +385,6 @@ def timer_based_traffic_lights():
 			horizontal_light = red
 			vertical_light = green
 			timer = vertical_green_time
-
-
-
-
-
-
-
-
-
-	
 
 
 
