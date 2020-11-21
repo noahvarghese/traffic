@@ -1,0 +1,346 @@
+Map (set of nodes and edges)
+Nodes represent traffic signals
+Only types 2 and 3 traffic signals (See ref docs)
+Default green time is '31seconds'
+
+type 2 
+	- Fixed time, (-/+) max/min signal length based on traffic
+	- changes if vehicle waiting
+	- if time >= minGgreenTime && vehicleWaiting: turnYellow()
+	- if lessTraffic: minGreenTime--, maxGreenTime++
+	- if moreTraffic: minGreenTime++, maxGreenTime--
+type 3 is times influenced by traffic
+	- if lessTraffic: minGreenTime--, maxGreenTime++
+	- if moreTraffic: minGreenTime++, maxGreenTime--
+
+Queue per lane
+
+
+Randomize vehicle
+Randomize start points and endpoints for each vehicle
+Use A* for path finding
+use density, total cars in queue vs spaces in queue as flow param
+
+add direction with highest traffic as priority for traffic lights
+
+update view once every half second?
+queue will be of constant length
+empty will represent no car, we constantly pop the the next vehicle from the stack, 
+	if it is not undefined then 
+
+# Start at beginning of queue, work my way back,
+# repeat each iteration
+while queue[car.index - 1] == Empty: 
+	queue[car.index - 1] = car;
+	queue[car.index] = Empty
+
+Average car length = 16ft, or 4.87m
+each queue index will represent roughly 20ft or 6 metres
+1 km / 0.006 = 166.6667 spaces 
+we'll approximate to 167
+so each queue is of length 167
+
+we will render 4 times a second,
+As each second, at 60km/h, a vehicle will move 16.6667 metres
+16.6667 / 4.87 = 3.422, we will round to 4
+so each render if the next spot is empty, the car will move up starting from the first to the last
+
+intersections will be the number of lanes (queues) on one side wide
+if the light is green and there is no car in the queue for the intersection, the car will move ahead
+
+average green light time is 31 seconds, so there will be 124 renders of a green light on average
+
+once the light turns red, no more cars tallowed into the intersection, 
+cars in the intersection will move on each render however
+once car reaches destination, it will disappear
+Traffic lights will be changed to either weight the direction with the highest cumulative flow 
+	for all movement (8 directions, incoming and outgoing)
+or the line with the closest, longest uninterrupted queue of vehicles
+
+NEED A WAY TO TIE TRAFFIC LIGHT TO DIRECTION IN NODE
+
+
+Sample
+
+
+
+Graph: 
+V = set(
+	1 = {
+		Intersection: "James and Burlington",
+		latitude: 43.27278328923836, 
+		longitude: -79.86206664147278,
+		traffic_light: 
+	},
+	2 = {
+		Intersection: "Barton and James",
+		latitude: 43.264142,
+		longitude: -79.865790 ,
+		traffic_light: 
+	},
+	3 = {
+		Intersection: "James and Cannon",
+		latitude: 43.260681, 
+		longitude: -79.867394 ,
+		traffic_light: 
+	},
+	4 = {	
+		Intersection: "Burlington and Wellington",
+		latitude: 43.270533,
+		longitude: -79.852070 ,
+		traffic_light: 
+	},
+	5 = {
+		Intersection: "Barton and Wellington",
+		latitude: 43.261613,
+		longitude: -79.855876,
+		traffic_light: 
+	},
+	6 = {
+		Intersection: "Wellington and Cannon",
+		latitude: 43.257712,
+		longitude: -79.854779 ,
+		traffic_light: 
+	},
+	7 = {
+		Intersection: "Burlington and Wentworth",
+		latitude: 43.267942,
+		longitude: -79.842156 ,
+		traffic_light: 
+	}
+	8 = {
+		Intersection: "Barton and Wentworth",
+		latitude: 43.259125,
+		longitude: -79.845890 ,
+		traffic_light: 
+	},
+	9 = {
+		Intersection: "Cannon and Wentworth",
+		latitude: 43.255865,
+		longitude: -79.847321 ,
+		traffic_light: 
+	}
+)
+
+first index is the starting point
+E = {
+	{
+		start: 9,
+		end: 6
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 6,
+		end: 3,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 3,
+		end: 2,
+		distance: 0.4km,
+		queue:,
+		orientation: "vertical"
+	},
+	{
+		start: 2,
+		end: 3,
+		distance: 0.4km,
+		queue:,
+		orientation: "vertical"
+	},
+	{
+		start: 2,
+		end: 5,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 5,
+		end: 2,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 5,
+		end: 8,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 8,
+		end: 5,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 8,
+		end: 7,
+		distance: 1km,
+		queue: ,
+		orientation: "vertical"
+	},
+	{
+		start: 7,
+		end: 8,
+		distance: 1km,
+		queue: ,
+		orientation: "vertical"
+	},
+	{
+		start: 7,
+		end: 4,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 4,
+		end: 7,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 4,
+		end: 5,
+		distance: 1km,
+		queue: ,
+		orientation: "vertical"
+	},
+	{
+		start: 4,
+		end: 1,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 1,
+		end: 4,
+		distance: 0.85km,
+		queue: ,
+		orientation: "horizontal"
+	},
+	{
+		start: 1,
+		end: 2,
+		distance: 1km,
+		queue: ,
+		orientation: "vertical"
+	},
+	{
+		start: 2,
+		end: 1,
+		distance: 1km,
+		queue: ,
+		orientation: "vertical"
+	}
+}
+
+# We actually have our distances from google maps
+def euclidian_distance(Node1, Node2):
+	return Math.sqrt((Node1.x - Node2.x) ^ 2 + (Node1.y - Node2.y) ^ 2)
+	return Math.sqrt((Node1.latitude - Node2.latitude) ^ 2 + (Node1.longitude - Node2.longitude) ^ 2)
+distance = euclidian_distance()
+
+def num_cars(distance):
+	# the length of the queue
+	return Math.round(distance / 4.87)
+
+
+def traffic_lights():	
+
+	horizontal_light = red
+	vertical_light = green
+
+	# To start
+	horizontal_light.min_green_time = 31
+	horizontal_light.max_green_time = 31
+
+	vertical_light.min_green_time = 31
+	vertical_light.max_green_time = 31
+
+	while(True):
+		timer = 0
+
+		traffic_light = horizontal_light == green ? horizontal_light : vertical_light
+
+
+		while timer < traffic_light.max_green_time:
+			sleep(1)
+			if traffic_light == green:
+				timer++
+				if timer >= traffic_light.min_green_time:
+					check for vehicles in perpindicular direction
+					if vehicles waiting:
+						traffic_light = yellow
+						break
+
+		if traffic_light == yellow:
+			sleep(3)
+			traffic_light = red
+
+			if traffic_light == horizontal_light:
+				vertical_light = green
+			else:
+				horizontal_light = green
+
+
+
+def timer_based_traffic_lights():
+
+	horizontal_light = red
+	vertical_light = green
+	
+	horizontal_green_time = 31
+	vertical_green_time = 31
+
+	yellow_time = 3
+
+	timer = vertical_green_time
+
+	while(True):
+
+		while timer > 0:
+			sleep(1)
+			timer-- 
+
+			if timer <= 0:
+				if  vertical_light == green
+					vertical_light = yellow
+				else:
+					horizontal_light = yellow
+
+		sleep(yellow_time)
+		if vertical_light == yellow:
+			vertical_light = red
+			horizontal_light = green
+			timer = horizontal_green_time
+		else:
+			horizontal_light = red
+			vertical_light = green
+			timer = vertical_green_time
+
+
+
+
+
+
+
+
+
+	
+
+
+
+def modified_traffic_lights():
+
+

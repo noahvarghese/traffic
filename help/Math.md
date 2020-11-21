@@ -27,7 +27,7 @@
 
     - What class is each traffic light in the intersection?
     	- Types of traffic signal operations
-    		- Source https://halton.ca/For-Residents/Road-Construction/Traffic-Signals
+    		- Source https://halton.ca/For-Residents/Roads-Construction/Traffic-Signals
     		- Fixed (timed)
     			- Set fixed time to change for each side
     		- Semi Actuated (change in response to vehicle/pedestrian, time vary with traffic and have min/max values)

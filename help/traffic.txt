@@ -1,0 +1,48 @@
+Traffic
+
+	|	|	|
+     ---O-------O-------1----
+	|	|	|
+	|	|	|
+	|	|	|
+     ---1-------1-------2----
+	|	|	|
+	|	|	|
+	|	|	|
+     ---2-------2-------2----
+	|	|	|
+
+0 = fixed
+1 = semi actuated
+2 = fully actuated
+
+
+
+			  |	  |	  |
+			  |	C |	  |
+			  |	C |	  |		
+			  |_C_C_C_|_______|
+		       |  ________________  |
+-----------------------| |                | |-----------------------
+C  C  C             C  C  C      C   C   C| |	C		C
+		       | |		  | |		C
+_______________________| |		  | |_______________________
+		       | |		  | |
+		    C C| |		  | |
+		  C C C| |		  | |
+-----------------------| |		  | |-----------------------
+		       |  ----------------  |
+		       ----------------------
+			  |	  | C   C |
+			  |	  |	C |
+			  |	  |	  |		
+			  |_______|_______|
+
+
+Type of car gets x num of spaces to take up from starting index + length
+
+queue for each section
+use objects with custom properties
+When light turns red all cars are stopped if they are behind the intersection
+
+Calculate flow for each section by num vehicles (spaces taken up) / num spaces
