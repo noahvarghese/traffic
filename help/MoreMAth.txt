@@ -128,6 +128,7 @@ E = {
 		start: 9,
 		end: 6
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -135,6 +136,7 @@ E = {
 		start: 6,
 		end: 3,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -142,6 +144,7 @@ E = {
 		start: 3,
 		end: 2,
 		distance: 0.4km,
+		density: ,
 		queue:,
 		orientation: "vertical"
 	},
@@ -149,6 +152,7 @@ E = {
 		start: 2,
 		end: 3,
 		distance: 0.4km,
+		density: ,
 		queue:,
 		orientation: "vertical"
 	},
@@ -156,6 +160,7 @@ E = {
 		start: 2,
 		end: 5,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -163,6 +168,7 @@ E = {
 		start: 5,
 		end: 2,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -170,6 +176,7 @@ E = {
 		start: 5,
 		end: 8,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -177,6 +184,7 @@ E = {
 		start: 8,
 		end: 5,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -184,6 +192,7 @@ E = {
 		start: 8,
 		end: 7,
 		distance: 1km,
+		density: ,
 		queue: ,
 		orientation: "vertical"
 	},
@@ -191,6 +200,7 @@ E = {
 		start: 7,
 		end: 8,
 		distance: 1km,
+		density: ,
 		queue: ,
 		orientation: "vertical"
 	},
@@ -198,6 +208,7 @@ E = {
 		start: 7,
 		end: 4,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -205,6 +216,7 @@ E = {
 		start: 4,
 		end: 7,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -212,6 +224,7 @@ E = {
 		start: 4,
 		end: 5,
 		distance: 1km,
+		density: ,
 		queue: ,
 		orientation: "vertical"
 	},
@@ -219,6 +232,7 @@ E = {
 		start: 4,
 		end: 1,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -226,6 +240,7 @@ E = {
 		start: 1,
 		end: 4,
 		distance: 0.85km,
+		density: ,
 		queue: ,
 		orientation: "horizontal"
 	},
@@ -233,6 +248,7 @@ E = {
 		start: 1,
 		end: 2,
 		distance: 1km,
+		density: ,
 		queue: ,
 		orientation: "vertical"
 	},
@@ -240,6 +256,7 @@ E = {
 		start: 2,
 		end: 1,
 		distance: 1km,
+		density: ,
 		queue: ,
 		orientation: "vertical"
 	}
@@ -247,8 +264,16 @@ E = {
 
 # We actually have our distances from google maps
 def euclidian_distance(Node1, Node2):
-	return Math.sqrt((Node1.x - Node2.x) ^ 2 + (Node1.y - Node2.y) ^ 2)
+	# Need to multiply all coordinates by 1000 to make distance mean anything
+	latitude1 = Node1.latitude * 1000
+	latitude2 = Node2.latitude * 1000
+
+	longitude1 = Node1.longitude * 1000
+	longitude2 = Node2.longitude * 1000
+
+	return Math.sqrt((latitude1) - latitude2) ^ 2 + (longitude1 - longitude2) ^ 2)
 	return Math.sqrt((Node1.latitude - Node2.latitude) ^ 2 + (Node1.longitude - Node2.longitude) ^ 2)
+	
 distance = euclidian_distance()
 
 def num_cars(distance):

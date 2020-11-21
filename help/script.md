@@ -16,7 +16,11 @@
 -   Create X num of vehicles
 -   Randomly assign those vehicles a starting node
 -   Then randomly assign them an edge with the vehicle's starting node the same as the edges starting node
--   Use A\* to
+-   use whatever ending node that contains the queue the vehicle is currently on
+-   Use A\* to get path
+-   y = Take euclidian distance using longitude and latitude of each potential node from the destination node
+-   x = Use distance in metres \* (traffic in queue / queue capacity) to prioritize nodes
+-   x + y is the value used for djikstra
 
 ## Talk about state space
 
