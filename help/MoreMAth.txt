@@ -258,25 +258,57 @@ def num_cars(distance):
 
 def traffic_lights():	
 
-	horizontal_light = red
-	vertical_light = green
+	horizontal_light.color = red
+	vertical_light.color = green
 
 	# To start
-	horizontal_light.min_green_time = 31
-	horizontal_light.max_green_time = 31
+	# 4 - 10 seconds for minor arterial
+	# Table 5-2 section 5.3.1
+	# https://ops.fhwa.dot.gov/publications/fhwahop08024/chapter5.htm	
 
-	vertical_light.min_green_time = 31
-	vertical_light.max_green_time = 31
+	# Max green typically 30-50s
+	# Min green typically 4-10s
+	horizontal_light.min_green_time = 10
+	horizontal_light.max_green_time = 50
+
+	vertical_light.min_green_time = 10
+	vertical_light.max_green_time = 50
 
 	while(True):
 		timer = 0
 
-		traffic_light = horizontal_light == green ? horizontal_light : vertical_light
+		# I want this to be a reference to the same object  so i can check that they reference the same space in memory
+		# And so that when one properties change, the 'others' property will change too
+		traffic_light = horizontal_light.color == green ? horizontal_light : vertical_light
+
+		# start minimum green timer
+
+			# if conflicting traffic detected
+
+				# stop minimum green timer
+
+				# start maximum green timer
+
+					# check for break in oncoming queues aafter 12 spaces out, or the 12th index
+
+					# if break
+						# Change to yellow
+						# stop max timer
+						# end
+					
+					# if timer ends without break
+						# Change to yellow
+						# stop max timer
+						# end
+
+			# if minimum green timer ends without any conflicting traffic
+
+
 
 
 		while timer < traffic_light.max_green_time:
 			sleep(1)
-			if traffic_light == green:
+			if traffic_light.color == green:
 				timer++
 				if timer >= traffic_light.min_green_time:
 					check for vehicles in perpindicular direction
@@ -300,8 +332,8 @@ def timer_based_traffic_lights():
 	horizontal_light = red
 	vertical_light = green
 	
-	horizontal_green_time = 31
-	vertical_green_time = 31
+	horizontal_green_time = 50
+	vertical_green_time = 50
 
 	yellow_time = 3
 
