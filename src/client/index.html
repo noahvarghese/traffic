@@ -6,30 +6,40 @@
     </head>
     <body>
         <div id="root"></div>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-        <script src="https://d3js.org/d3-array.v2.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <!-- <script src="https://d3js.org/d3-geo.v2.min.js"></script> -->
         <script type="text/javascript">
-            const shpJson = "http://localhost:4000/shp";
-            const osmJson = "http://localhost:4000/osm";
-            const loadGeojson = async () => {
-                return new Promise((resolve, reject) => {
-                    axios.get(osmJson).then((res) => resolve(res.data));
-                });
+
+            const YFromLatitude = latitude => latitude + 90;
+            const XFromLongitude = longitude => longitude + 180;
+
+            const renderGraph = (Nodes, Edges) => {
+                // latitudes go 90 degress (north) and -90 degress (south)
+                const latitudes = 180;
+                // longitudes go 180 degress (east) and -180 degress (west)
+                const longitudes = 360;
+
+                const root = document.getElementById("root");
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+                
+                ctx.canvas.width  = window.innerWidth;
+                ctx.canvas.height = window.innerHeight;
+
+                for ( let node of Nodes ) {
+                    ctx.fillRect(XFromLongitude(node.location.longitude), YFromLatitude(node.location.latitude));
+                }
+
+                root.appendChild(canvas);
             };
-            window.addEventListener("load", async () => {
-                const svg = d3
-                    .select("#root")
-                    .append("svg")
-                    .attr("width", 900)
-                    .attr("height", 500);
 
-                const geojsonData = await loadGeojson();
-                console.log(geojsonData);
-
-                svg.append("path").datum(geojsonData).attr("d", d3.geoPath());
-                // svg.append("path").datum(geojsonData);
+            window.addEventListener("load", () => {
+                fetch("http://localhost:3000/renderGraph", { method: "POST" })
+                    .then(res => res.data)
+                    .then(data => {
+                        const Intersections = data.Nodes;
+                        const Roads = data.Edges;
+                        renderGraph(Intersections, Roads);
+                    })
+                    .catch(err => console.error(err));
             });
         </script>
     </body>

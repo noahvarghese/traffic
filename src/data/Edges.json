@@ -1,5 +1,6 @@
 [
     {
+        "streetName": "Cannon St",
         "start": 9,
         "end": 6,
         "distance": 0.85,
@@ -8,6 +9,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Cannon St",
         "start": 6,
         "end": 3,
         "distance": 0.85,
@@ -16,6 +18,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "James St",
         "start": 3,
         "end": 2,
         "distance": 0.4,
@@ -24,6 +27,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "James St",
         "start": 2,
         "end": 3,
         "distance": 0.4,
@@ -32,6 +36,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "Barton St",
         "start": 2,
         "end": 5,
         "distance": 0.85,
@@ -40,6 +45,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Barton St",
         "start": 5,
         "end": 2,
         "distance": 0.85,
@@ -48,6 +54,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Barton St",
         "start": 5,
         "end": 8,
         "distance": 0.85,
@@ -56,6 +63,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Barton St",
         "start": 8,
         "end": 5,
         "distance": 0.85,
@@ -64,6 +72,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Wentworth St",
         "start": 8,
         "end": 7,
         "distance": 1,
@@ -72,6 +81,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "Wentworth St",
         "start": 7,
         "end": 8,
         "distance": 1,
@@ -80,6 +90,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "Burlington St",
         "start": 7,
         "end": 4,
         "distance": 0.85,
@@ -88,6 +99,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Burlington St",
         "start": 4,
         "end": 7,
         "distance": 0.85,
@@ -96,6 +108,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Wellington St",
         "start": 4,
         "end": 5,
         "distance": 1,
@@ -104,6 +117,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "Burlington St",
         "start": 4,
         "end": 1,
         "distance": 0.85,
@@ -112,6 +126,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "Burlington St",
         "start": 1,
         "end": 4,
         "distance": 0.85,
@@ -120,6 +135,7 @@
         "orientation": "horizontal"
     },
     {
+        "streetName": "James St",
         "start": 1,
         "end": 2,
         "distance": 1,
@@ -128,6 +144,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "James St",
         "start": 2,
         "end": 1,
         "distance": 1,
@@ -136,6 +153,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "Wellington St",
         "start": 5,
         "end": 6,
         "distance": 0.4,
@@ -144,6 +162,7 @@
         "orientation": "vertical"
     },
     {
+        "streetName": "Wentworth St",
         "start": 8,
         "end": 9,
         "distance": 0.4,

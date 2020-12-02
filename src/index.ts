@@ -1,3 +1,6 @@
+import express from "express";
+import path from "path";
+
 import Node from "./lib/Classes/Node";
 import Edge from "./lib/Classes/Edge";
 import Car from "./lib/Classes/Car";
@@ -61,6 +64,8 @@ for ( let i = 0; i < numberOfVehicles; i++ ) {
     cars.push(car);
 }
 
+
+
 // generate starting and ending points for the cars
 
 // place cars on road
@@ -68,3 +73,22 @@ for ( let i = 0; i < numberOfVehicles; i++ ) {
 // simulate road
 
 // simulate movement
+
+(async () => {
+    const app = express();
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+
+    app.get("/", (_, res) => {
+        res.sendFile(path.join(__dirname, "client", "index.html"));
+    });
+
+    app.post("/renderGraph", (_, res) => {
+        res.send({ Nodes: Intersections, Edges: Roads });
+    });
+
+    const port = 3000;
+    app.listen(port, () => {
+        console.log(`Server started on port ${port}`);
+    })
+})();
