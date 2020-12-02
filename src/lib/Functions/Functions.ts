@@ -95,8 +95,9 @@ export const LoadEdges = (path: string, nodes: Node[]): Edge[] => {
             edges.push(
                 new Edge(
                     el.distance,
-                    nodes[ el.start ],
-                    nodes[ el.end ]
+                    nodes[ el.start - 1 ],
+                    nodes[ el.end - 1 ],
+                    el.orientation
                 )
             )
         });
@@ -107,9 +108,8 @@ export const LoadEdges = (path: string, nodes: Node[]): Edge[] => {
 
 export const random = (max: number) => Math.floor(Math.random() * max)
 
-export const LinkNodesAndEdges = (Nodes: Node[], Edges: Edge[]): { nodes: Node[]; edges: Edge[] } => {
-    let nodes: Node[] = [];
-    let edges: Edge[] = [];
+export const LinkNodesAndEdges = (Nodes: Node[], Edges: Edge[]): void => {
+    // let nodes: Node[] = [];
     
     for ( let node of Nodes ) {
         // get all edges that end at this node
@@ -121,23 +121,22 @@ export const LinkNodesAndEdges = (Nodes: Node[], Edges: Edge[]): { nodes: Node[]
         // if a latitude is less than another, that latitude is further north
         // if a longitude is less than another, that item is further east than the other
 
-        for ( let edge of Edges ) {
+        for ( let edge of edgesFromNode ) {
+
             if ( edge.orientation === "vertical" ) {
                 if ( edge.startingNode.location.latitude < node.location.latitude ) {
-                    if ( node.incomingRoads ) node.incomingRoads.northEdge = edge;
+                    node.incomingRoads = { ...node.incomingRoads, northEdge: edge };
                 } else {
-                    if ( node.incomingRoads ) node.incomingRoads.southEdge = edge;                
+                    node.incomingRoads = { ...node.incomingRoads, southEdge: edge };
                 }
             }
             else if ( edge.orientation === "horizontal" ) {
                 if ( edge.startingNode.location.longitude < node.location.longitude ) {
-                    if ( node.incomingRoads ) node.incomingRoads.eastEdge = edge;
+                    node.incomingRoads = { ...node.incomingRoads, eastEdge: edge };
                 } else {
-                    if ( node.incomingRoads ) node.incomingRoads.westEdge = edge;                
+                    node.incomingRoads = { ...node.incomingRoads, westEdge: edge };
                 }
             }
         }
     }
-    
-    return { nodes, edges};
 };

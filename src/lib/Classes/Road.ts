@@ -1,4 +1,4 @@
-import { Road as RoadAttributes, PeekOpts } from "../Types/Road";
+import RoadAttributes, { PeekOpts } from "../Types/Road";
 
 export class Road<T> implements RoadAttributes<T> {
 

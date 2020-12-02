@@ -2,46 +2,46 @@
     {
         "intersection": "James and Burlington",
         "latitude": 43.272783,
-        "longitude": -79.862066,
+        "longitude": -79.862066
     },
     {
         "intersection": "Barton and James",
         "latitude": 43.264142,
-        "longitude": -79.86579,
+        "longitude": -79.86579
     },
     {
         "intersection": "James and Cannon",
         "latitude": 43.260681,
-        "longitude": -79.867394,
+        "longitude": -79.867394
     },
     {
         "intersection": "Burlington and Wellington",
         "latitude": 43.270533,
-        "longitude": -79.85207,
+        "longitude": -79.85207
     },
     {
-        "Intersection": "Barton and Wellington",
+        "intersection": "Barton and Wellington",
         "latitude": 43.261613,
-        "longitude": -79.855876,
+        "longitude": -79.855876
     },
     {
         "intersection": "Wellington and Cannon",
         "latitude": 43.257712,
-        "longitude": -79.854779,
+        "longitude": -79.854779
     },
     {
         "intersection": "Burlington and Wentworth",
         "latitude": 43.267942,
-        "longitude": -79.842156,
+        "longitude": -79.842156
     },
     {
         "intersection": "Barton and Wentworth",
         "latitude": 43.259125,
-        "longitude": -79.84589,
+        "longitude": -79.84589
     },
     {
         "intersection": "Cannon and Wentworth",
         "latitude": 43.255865,
-        "longitude": -79.847321,
+        "longitude": -79.847321
     }
 ]

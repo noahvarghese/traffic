@@ -20,7 +20,7 @@ export default class Node implements NodeAttributes {
         this.intersection = _intersection;
         this.location = _location;
         this.trafficLights = _trafficLights;
-        this.incomingRoads = _incomingRoads;
+        this.incomingRoads = _incomingRoads !== null ? _incomingRoads : { southEdge: undefined, northEdge: undefined, eastEdge: undefined, westEdge: undefined};
     }
 
 }
