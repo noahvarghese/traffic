@@ -4,8 +4,6 @@
         "start": "Cannon and Wentworth",
         "end": "Wellington and Cannon",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -13,8 +11,6 @@
         "start": "Wellington and Cannon",
         "end": "James and Cannon",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -22,8 +18,6 @@
         "start": "James and Cannon",
         "end": "Barton and James",
         "distance": 0.4,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -31,8 +25,6 @@
         "start": "Barton and James",
         "end": "James and Cannon",
         "distance": 0.4,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -40,8 +32,6 @@
         "start": "Barton and James",
         "end": "Barton and Wellington",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -49,8 +39,6 @@
         "start": "Barton and Wellington",
         "end": "Barton and James",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -58,8 +46,6 @@
         "start": "Barton and Wellington",
         "end": "Barton and Wentworth",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -67,8 +53,6 @@
         "start": "Barton and Wentworth",
         "end": "Barton and Wellington",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -76,8 +60,6 @@
         "start": "Barton and Wentworth",
         "end": "Burlington and Wentworth",
         "distance": 1,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -85,8 +67,6 @@
         "start": "Burlington and Wentworth",
         "end": "Barton and Wentworth",
         "distance": 1,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -94,8 +74,6 @@
         "start": "Burlington and Wentworth",
         "end": "Burlington and Wellington",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -103,8 +81,6 @@
         "start": "Burlington and Wellington",
         "end": "Burlington and Wentworth",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -112,8 +88,6 @@
         "start": "Burlington and Wellington",
         "end": "Barton and Wellington",
         "distance": 1,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -121,8 +95,6 @@
         "start": "Burlington and Wellington",
         "end": "James and Burlington",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -130,8 +102,6 @@
         "start": "James and Burlington",
         "end": "Burlington and Wellington",
         "distance": 0.85,
-        "density": 0,
-        "queue": [],
         "orientation": "horizontal"
     },
     {
@@ -139,8 +109,6 @@
         "start": "James and Burlington",
         "end": "Barton and James",
         "distance": 1,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -148,8 +116,6 @@
         "start": "Barton and James",
         "end": "James and Burlington",
         "distance": 1,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -157,8 +123,6 @@
         "start": "Barton and Wellington",
         "end": "Wellington and Cannon",
         "distance": 0.4,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     },
     {
@@ -166,8 +130,6 @@
         "start": "Barton and Wentworth",
         "end": "Cannon and Wentworth",
         "distance": 0.4,
-        "density": 0,
-        "queue": [],
         "orientation": "vertical"
     }
 ]

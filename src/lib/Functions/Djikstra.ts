@@ -3,13 +3,13 @@ import Edge from "../Classes/Edge";
 import Node from "../Classes/Node";
 import { EuclidianDistance } from "./TrafficLightSystem";
 
-const aStarMod = ( edge: Edge, targetNode: Node ) => {
+const aStarMod = ( edge: Edge, targetNode: Node, Nodes: Node[] ) => {
     const density = edge.queue.density();
     const distance = edge.distance;
 
     const flowRate = density * distance;
 
-    const distanceFromDestination = EuclidianDistance(edge.endNode, targetNode);
+    const distanceFromDestination = EuclidianDistance(Node.FindNodeByIntersection(edge.endingNodeIntersection, Nodes)!, targetNode);
 
     return distanceFromDestination + flowRate;
 };
@@ -47,11 +47,11 @@ export default (
         vertexSet = vertexSet.filter((node: Node) => node !== u);
 
         // get neighbors, that are still in the vertex set
-        const neighbors: Node[] = edges.filter((edge: Edge) => edge.startingNode.intersection === u.intersection).map((edge: Edge) => edge.endNode);
+        const neighbors: (Node | undefined)[] = edges.filter((edge: Edge) => edge.startingNodeIntersection === u.intersection).map((edge: Edge) => Node.FindNodeByIntersection(edge.endingNodeIntersection, nodes));
 
         for ( let neighbor of neighbors ) {
             let length: number;
-            const currentEdge = edges.find((edge: Edge) => (edge.startingNode === u && edge.endNode === neighbor));
+            const currentEdge = edges.find((edge: Edge) => (edge.startingNodeIntersection === u.intersection && edge.endingNodeIntersection === neighbor?.intersection));
 
             if ( ! currentEdge ) {
                 console.error("NO EDGE");
@@ -59,16 +59,16 @@ export default (
             }
 
             if ( useAStar ) {
-                length = aStarMod(currentEdge, endNode);
+                length = aStarMod(currentEdge, endNode, nodes);
             } else {
                 length = currentEdge.distance;
             }
 
             const alt = distance[ nodes.indexOf(u) ] + length;
 
-            if ( alt < distance[ nodes.indexOf(neighbor) ] ) {
-                distance[ nodes.indexOf(neighbor) ] = alt;
-                previous[ nodes.indexOf(neighbor) ] = u;
+            if ( alt < distance[ nodes.indexOf(neighbor!) ] ) {
+                distance[ nodes.indexOf(neighbor!) ] = alt;
+                previous[ nodes.indexOf(neighbor!) ] = u;
             }
         }
         

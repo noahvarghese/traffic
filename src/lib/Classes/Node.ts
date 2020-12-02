@@ -23,4 +23,8 @@ export default class Node implements NodeAttributes {
         this.incomingRoads = _incomingRoads !== null ? _incomingRoads : { southEdge: undefined, northEdge: undefined, eastEdge: undefined, westEdge: undefined};
     }
 
+    static FindNodeByIntersection = (intersection: string, Nodes: Node[]) => {
+        return Nodes.find((node) => node.intersection === intersection)
+    }
+
 }

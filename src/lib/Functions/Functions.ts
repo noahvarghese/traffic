@@ -97,8 +97,8 @@ export const LoadEdges = (path: string, nodes: Node[]): Edge[] => {
             edges.push(
                 new Edge(
                     el.distance,
-                    nodes[ el.start - 1 ],
-                    nodes[ el.end - 1 ],
+                    el.start,
+                    el.end,
                     el.orientation
                 )
             )
@@ -115,7 +115,7 @@ export const LinkNodesAndEdges = (Nodes: Node[], Edges: Edge[]): void => {
     
     for ( let node of Nodes ) {
         // get all edges that end at this node
-        const edgesFromNode = Edges.filter((edge) => edge.endNode === node);
+        const edgesFromNode = Edges.filter((edge) => Node.FindNodeByIntersection(edge.endingNodeIntersection, Nodes) === node);
 
 
         // latitude runs north/south, 0/180
@@ -126,14 +126,14 @@ export const LinkNodesAndEdges = (Nodes: Node[], Edges: Edge[]): void => {
         for ( let edge of edgesFromNode ) {
 
             if ( edge.orientation === "vertical" ) {
-                if ( edge.startingNode.location.latitude < node.location.latitude ) {
+                if ( Node.FindNodeByIntersection(edge.startingNodeIntersection, Nodes)!.location.latitude < node.location.latitude ) {
                     node.incomingRoads = { ...node.incomingRoads, northEdge: edge };
                 } else {
                     node.incomingRoads = { ...node.incomingRoads, southEdge: edge };
                 }
             }
             else if ( edge.orientation === "horizontal" ) {
-                if ( edge.startingNode.location.longitude < node.location.longitude ) {
+                if ( Node.FindNodeByIntersection(edge.startingNodeIntersection, Nodes)!.location.longitude < node.location.longitude ) {
                     node.incomingRoads = { ...node.incomingRoads, eastEdge: edge };
                 } else {
                     node.incomingRoads = { ...node.incomingRoads, westEdge: edge };
