@@ -43,24 +43,11 @@ export default (
 
     while ( u !== undefined ) {
 
-        console.log("\n\nvetices");
-        console.log("========================\n");
-        
-        vertexSet.forEach((v) => {
-            console.log(v.intersection);
-        });
-
         // remove after use
-        console.log(`\n\nLength before filter: ${vertexSet.length}`);
-
         vertexSet = vertexSet.filter((node: Node) => node !== u);
 
-        console.log(`\nLength after filter: ${vertexSet.length}`);
-
         // get neighbors, that are still in the vertex set
-        console.log(edges, u.intersection);
         const neighbors: Node[] = edges.filter((edge: Edge) => edge.startingNode.intersection === u.intersection).map((edge: Edge) => edge.endNode);
-        console.log(neighbors)
 
         for ( let neighbor of neighbors ) {
             let length: number;

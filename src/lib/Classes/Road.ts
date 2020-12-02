@@ -1,3 +1,4 @@
+import { ENGINE_METHOD_ALL } from "constants";
 import RoadAttributes, { PeekOpts } from "../Types/Road";
 
 export default class Road<T> implements RoadAttributes<T> {
@@ -24,8 +25,11 @@ export default class Road<T> implements RoadAttributes<T> {
     }
 
     density = () => {
-        const numVehicles = this.elements.filter((el: T | undefined) => el !== undefined).length;
-        return numVehicles / this.length();
+        const vehicles = this.elements.filter((el: T | undefined) => el !== undefined);
+        const numVehicles = vehicles.length;
+        const density = numVehicles / this.length();
+
+        return isNaN(density) ? 0 : density;
     }
 
     isEmpty = () => this.length() > 0 && this.density() > 0;
