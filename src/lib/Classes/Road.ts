@@ -1,6 +1,6 @@
 import RoadAttributes, { PeekOpts } from "../Types/Road";
 
-export class Road<T> implements RoadAttributes<T> {
+export default class Road<T> implements RoadAttributes<T> {
 
     public length = () => this.elements.length;
     public elements: (T | undefined)[] = [];

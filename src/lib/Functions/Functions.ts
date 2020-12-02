@@ -1,6 +1,8 @@
 import fs from "fs";
 import Node from "../Classes/Node";
 import Edge from "../Classes/Edge";
+import TrafficLight from "../Classes/TrafficLight";
+import { TrafficLightsAtIntersection } from "../Types/Node";
 
 export class IntervalTimer {
 
@@ -140,3 +142,21 @@ export const LinkNodesAndEdges = (Nodes: Node[], Edges: Edge[]): void => {
         }
     }
 };
+
+export const InitTrafficLights = (Nodes: Node[]) => {
+    for ( let node of Nodes ) {
+        let tmpTrafficLights: TrafficLightsAtIntersection = {
+            ...node.trafficLights
+        };
+
+        if ( node.incomingRoads?.westEdge || node.incomingRoads?.eastEdge ) {
+            tmpTrafficLights.eastWestLights = new TrafficLight(node);
+        }
+
+        if ( node.incomingRoads?.northEdge || node.incomingRoads?.southEdge ) {
+            tmpTrafficLights.northSouthLights = new TrafficLight(node);
+        }
+
+        node.trafficLights = tmpTrafficLights;
+    }
+}

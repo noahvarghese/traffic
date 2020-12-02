@@ -1,5 +1,5 @@
-import Road  from "./Road";
-import Car from "./Car";
+import Road  from "../Classes/Road";
+import Car from "../Classes/Car";
 import Node from "./Node";
 
 export default interface Edge {

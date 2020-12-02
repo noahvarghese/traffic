@@ -14,11 +14,11 @@ export const FrameLength = 1000 / 4;
 export const EuclidianDistance = (node1: Node, node2: Node) => {
     const scale = 1000;
 
-    const latitude1 = node1.latitude * scale;
-    const latitude2 = node2.latitude * scale;
+    const latitude1 = node1.location.latitude * scale;
+    const latitude2 = node2.location.latitude * scale;
 
-    const longitude1 = node1.longitude * scale;
-    const longitude2 = node2.longitude * scale;
+    const longitude1 = node1.location.longitude * scale;
+    const longitude2 = node2.location.longitude * scale;
 
     return Math.sqrt( Math.pow(latitude1 - latitude2, 2) + Math.pow(longitude1 - longitude2, 2) );
 }
@@ -35,27 +35,27 @@ const TrafficWaiting = (currentLight: TrafficLight): boolean => {
     let trafficWaiting = false;
 
     // If the current direction is headed east and west, check north and south incoming roads
-    if ( currentLight === currentLight.intersection.horizontalTrafficLight ) {
-        if ( currentLight.intersection.northEdge ) {
-            if ( currentLight.intersection.northEdge.queue.peek() !== null ) {
+    if ( currentLight === currentLight.intersection.trafficLights?.eastWestLights ) {
+        if ( currentLight.intersection.incomingRoads?.northEdge ) {
+            if ( currentLight.intersection.incomingRoads.northEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }
-        if ( currentLight.intersection.southEdge ) {
-            if ( currentLight.intersection.southEdge.queue.peek() !== null ) {
+        if ( currentLight.intersection.incomingRoads?.southEdge ) {
+            if ( currentLight.intersection.incomingRoads.southEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }
     } 
     // if current direction is headed north and south, check east and west incoming roads
     else {
-        if ( currentLight.intersection.eastEdge ) {
-            if ( currentLight.intersection.eastEdge.queue.peek() !== null ) {
+        if ( currentLight.intersection.incomingRoads?.eastEdge ) {
+            if ( currentLight.intersection.incomingRoads.eastEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }
-        if ( currentLight.intersection.westEdge ) {
-            if ( currentLight.intersection.westEdge.queue.peek() !== null ) {
+        if ( currentLight.intersection.incomingRoads?.westEdge ) {
+            if ( currentLight.intersection.incomingRoads.westEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }    
@@ -77,18 +77,20 @@ const ChangeLights = (currentLight: TrafficLight, lightsChanging: boolean) => {
     currentLight.color = TrafficLightColor.yellow;
 
     setTimeout(() => {
-        if ( currentLight === currentLight.intersection.verticalTrafficLight ) {
-            currentLight.intersection.horizontalTrafficLight.color = TrafficLightColor.green
-        } else {
-            currentLight.intersection.verticalTrafficLight.color = TrafficLightColor.green;
-        }
+        if ( currentLight.intersection.trafficLights ) {
+            if ( currentLight === currentLight.intersection.trafficLights?.northSouthLights ) {
+                currentLight.intersection.trafficLights.eastWestLights!.color = TrafficLightColor.green
+            } else {
+                currentLight.intersection.trafficLights.northSouthLights!.color = TrafficLightColor.green;
+            }
 
-        currentLight.color = TrafficLightColor.red;
-        
-        if ( currentLight === currentLight.intersection.horizontalTrafficLight ) {
-            currentLight = currentLight.intersection.verticalTrafficLight;
-        } else {
-            currentLight = currentLight.intersection.horizontalTrafficLight;
+            currentLight.color = TrafficLightColor.red;
+            
+            if ( currentLight === currentLight.intersection.trafficLights.eastWestLights ) {
+                currentLight = currentLight.intersection.trafficLights.northSouthLights!;
+            } else {
+                currentLight = currentLight.intersection.trafficLights.eastWestLights!;
+            }
         }
 
         SwapLights(currentLight);        
@@ -97,18 +99,18 @@ const ChangeLights = (currentLight: TrafficLight, lightsChanging: boolean) => {
 };
 
 const CheckForBreak = (currentLight: TrafficLight): boolean => {
-    if ( currentLight === currentLight.intersection.verticalTrafficLight ) {
+    if ( currentLight === currentLight.intersection.trafficLights?.northSouthLights ) {
         if ( 
-            currentLight.intersection.eastEdge?.queue.peek({ index: 12 }) === null && 
-            currentLight.intersection.westEdge?.queue.peek({ index: 12 }) === null
+            currentLight.intersection.incomingRoads?.eastEdge?.queue.peek({ index: 12 }) === null && 
+            currentLight.intersection.incomingRoads?.westEdge?.queue.peek({ index: 12 }) === null
           ) {
             return true;
         }
     }
     else {
         if ( 
-            currentLight.intersection.northEdge?.queue.peek({ index: 12 }) === null &&
-            currentLight.intersection.southEdge?.queue.peek({ index: 12 }) === null
+            currentLight.intersection.incomingRoads?.northEdge?.queue.peek({ index: 12 }) === null &&
+            currentLight.intersection.incomingRoads?.southEdge?.queue.peek({ index: 12 }) === null
         ) {
             return true;
         }
@@ -118,9 +120,9 @@ const CheckForBreak = (currentLight: TrafficLight): boolean => {
 };
 
 const SwapLights = (currentLight: TrafficLight) => currentLight = 
-                                                        currentLight === currentLight.intersection.horizontalTrafficLight ? 
-                                                            currentLight.intersection.verticalTrafficLight :
-                                                            currentLight.intersection.horizontalTrafficLight;
+                                                        currentLight === currentLight.intersection.trafficLights?.eastWestLights ? 
+                                                            currentLight.intersection.trafficLights.northSouthLights! :
+                                                            currentLight.intersection.trafficLights?.eastWestLights!;
 
 export const TrafficLightSystem = (horizontalTrafficLight: TrafficLight, verticalTrafficLight: TrafficLight) => {
 

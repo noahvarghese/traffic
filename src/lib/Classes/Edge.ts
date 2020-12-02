@@ -1,7 +1,7 @@
 import EdgeAttributes from "../Types/Edge"
 import Node from "../Types/Node";
-import { Car } from "./Car";
-import { Road } from "./Road";
+import Car from "./Car";
+import Road from "./Road";
 
 export default class Edge implements EdgeAttributes {
     public startingNode: Node;

@@ -1,4 +1,4 @@
-import Edge from "./Edge";
+import Edge from "../Classes/Edge";
 import TrafficLight from "./TrafficLight";
 
 export default interface Node {

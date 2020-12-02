@@ -1,7 +1,6 @@
-import { dirname } from "path";
 import { exit } from "process";
-import Edge from "../Types/Edge";
-import Node from "../Types/Node";
+import Edge from "../Classes/Edge";
+import Node from "../Classes/Node";
 import { EuclidianDistance } from "./TrafficLightSystem";
 
 const aStarMod = ( edge: Edge, targetNode: Node ) => {
