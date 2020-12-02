@@ -1,86 +1,42 @@
-import express from "express";
-import * as dotenv from "dotenv";
-import { generateToken } from "./lib/Login";
-import { getFlowData, hereTokenURL } from "./lib/HERE";
-import { readCSV, osmToJson, shpToJson } from "./lib/File";
-import { renderMap } from "./lib/Map";
-dotenv.config({ path: __dirname + "/.env" });
+// Prep Simulation
+import Node from "./lib/Classes/Node";
+import Edge from "./lib/Classes/Edge";
+import { Car } from "./lib/Classes/Car";
+import Djikstra from "./lib/Functions/Djikstra";
+import { LoadNodes, LoadEdges, random } from "./lib/Functions/Functions";
 
-(async () => {
-    const app = express();
 
-    app.use(express.urlencoded());
-    app.use(express.json());
+const useAStar = true;
 
-    const port = 4000;
+// A better way to load
+const Nodes: Node[] = LoadNodes("./src/data/Nodes.json");
+const Edges: Edge[] = LoadEdges("./src/data/Edges.json", Nodes);
 
-    app.get("/", (req, res) => {
-        res.sendFile(`${__dirname}/client/index.html`);
-    });
+// need to figure out a way to tie the edges to the correct orientation
 
-    app.get("/d3", async (req, res) => {
-        const filePath =
-            "raw/road/town/shapefile/17350ba3-42d6-46fc-8463-a539124dc3bc2020329-1-1mla2qw.c8hg.shp";
+// create cars
+const numberOfVehicles: number = 1;
+const cars: Car[] = [];
 
-        const output = await shpToJson(filePath);
-        const map = await renderMap(output);
-        res.send(map);
-    });
+console.log("Started");
 
-    app.get("/shp", async (req, res) => {
-        const filePath =
-            "raw/road/town/shapefile/17350ba3-42d6-46fc-8463-a539124dc3bc2020329-1-1mla2qw.c8hg.shp";
+for ( let i = 0; i < numberOfVehicles; i++ ) {
+    const startingNode: Node = Nodes[ random(Nodes.length) ];
+    const endingNode: Node = Nodes[ random(Nodes.length) ];
 
-        const output = await shpToJson(filePath);
+    const car = new Car(
+       startingNode,
+       endingNode,
+       Djikstra(startingNode, endingNode, Nodes, Edges, useAStar)
+    );
 
-        res.send(output);
-    });
+    cars.push(car);
+}
 
-    app.get("/osm", async (req, res) => {
-        // const output = await osmToJson("oakville_bbx");
-        const output = await osmToJson("road/town/oakville");
-        res.send(output);
-    });
+// generate starting and ending points for the cars
 
-    app.get("/boundary", async (req, res) => {
-        const boundary = await readCSV("raw/road/town/Town_Boundary.csv");
-        res.send(boundary);
-    });
+// place cars on road
 
-    app.get("/flow", async (_, res) => {
-        const flowToken = await generateToken(
-            process.env.HERE_ACCESS_KEY_ID!,
-            process.env.HERE_ACCESS_KEY_SECRET!,
-            hereTokenURL
-        );
-        const bbox = "43.433981,-79.810854;43.480386,-79.626178";
-        const flowData = await getFlowData(bbox, flowToken).catch((err) =>
-            console.log(err)
-        );
-        res.send(flowData);
-    });
+// simulate road
 
-    app.get("/map", async (req, res) => {
-        const mapData = (await readCSV(
-            "raw/road/town/Road_Network.csv"
-        )) as any[];
-
-        const streetName = req.query.streetName
-            ? (req.query.streetName as string).toLowerCase()
-            : "westoak trails blvd";
-
-        const street = mapData.find(
-            (item) => item.ROUTE.toLowerCase() === streetName
-        );
-
-        res.send(
-            street === undefined
-                ? `No road matching ' ${streetName} ' found.`
-                : street
-        );
-    });
-
-    app.listen(port, () => {
-        console.log(`Server started on port: ${port}.`);
-    });
-})();
+// simulate movement

@@ -1,3 +1,46 @@
+Hey Steve
+Welcome to my strategy explanation and justification viedo
+My name is Noah Varghese.
+My project is a traffic simulation.
+It is based arounbd integrating knowledge of traffic with traffic signals
+
+The way that I am going about this is simulating a road system, with rules for the traffic lights as a control. Generating vehicles on this graph with a destination, and simulating their movement.
+
+The traffic lights will be on a max/min green light timer, with timer changes triggering when a vehicle is waiting at the opposing light.
+
+I will run it once without any modifications to the traffic light algorithm, and then once more with an addition.
+
+The metric I have chosen to use to influence the lights is a density based off of the cars on the road divided by the capacity of the road, and recursively calling it on the next 2 degrees of roads preceding the intersection, the immediate one being given a weight of 1, and the next getting a weight of 2 and so on.
+With the final formula being f(x) = n(traffic/capacity) + (n - 1) * (traffic/capacity).... 
+
+The areas of math that I will be convering that are from what we touched on in class is graph theory and dynamic programming, as well as state space
+
+This simulation fits perfectly into graph theory as all intersections can be thought of as vertices
+and the lanes as edges
+
+(View json objects and map drawn)
+
+I plotted out some example fields
+This road network can be viewed as a directional graph
+There is some extra information in the roads such as density and distance
+
+Once we generate a car with a starting node, and a destination, the next part is getting it moving
+
+When looking at A*, instead of applying the distance of node to node, I applied 2 heuristics a flow rate so to speak, and the euclidian distance from the current node to the end node, here i used the longitude and latitude to compute the euclidian distance
+And the density was a set of randomly generated values for the demo, but it is calculated by the
+current traffic of the edge divided by capactiy of the edge 
+
+Looking at the trace I made, it pretty well ftried to flood fill the graph, it may perform better in a different structured graph as opposed to the grid like one here
+
+Then for the state space, I am using FIFO queues to keep track of the cars, and each intersection will have a matrix as a property to keep track of vehicles changeing edges
+each car will keep track of its path, and the path will be recaclulated each move, just as google maps data is recaclulated in real time
+
+The euclidian distances could be kept track of in their own matrix of data, to prevent recalculations and duplicates, or we can just compute them when needed, depends on whether memory or computation capacity is lacking
+
+I think my methods for testing will do well, but there are a variety of metrics and heuristucs I could use to modify the traffic light alogrithm and influence A*, but this lays the groundwork to build upon and refine my original hypothesis
+
+That brings me to the end of my presentation, have a good one.
+
 # script
 
 ## Talk about Graphs
@@ -13,6 +56,12 @@
 
 ## Talk about A\*
 
+- instead of applying the distance of node to node I applied 2 heuristics, A flow rate so to speak, and the euclidian distance from the desired node
+
+- Euclidian distance proposes a case for precomputing the distances instead of computing them while comparing them, but that depends on the size of our simulation and whether we can afford the extra computation or memory if precomputing and storing the distances
+
+100S OF METRES * TRAFFIC DENSITY
+
 -   Create X num of vehicles
 -   Randomly assign those vehicles a starting node
 -   Then randomly assign them an edge with the vehicle's starting node the same as the edges starting node
@@ -23,6 +72,8 @@
 -   x + y is the value used for djikstra
 
 ## Talk about state space
+
+-  Car keeps track of its own path
 
 -   For the state space problems we have done in class, we used a binary tree and typically only cared about the leaf nodes, or representing failed states, and succesful states
 
