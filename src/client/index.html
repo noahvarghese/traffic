@@ -3,9 +3,38 @@
     <head>
         <title>Traffic</title>
         <meta charset="utf-8" />
+        <style>
+            #root {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #path {
+                margin-top: 2rem;
+            }
+
+            table, tr, td, th {
+                border-collapse: collapse;
+                border: 1px solid black;
+            }
+        </style>
     </head>
     <body>
         <div id="root">
+            <div id="conatiner">
+                <h1>Djikstra</h1>
+                <ul>
+                    <li id="startingNode"><strong>Starting Node:</strong> </li>
+                    <li id="destinationNode"><strong>Destination Node:</strong> </li>
+                </ul>
+                <table id="previous">
+                    <tr>
+                        <th>Source</th>
+                        <th>Previous</th>
+                    </tr>
+                </table>
+                <div id="path"><strong>Path: </strong></div>
+            </div>
             <canvas id="map" width="1200px" height="900px"></canvas>
         </div>
         <script type="text/javascript">
@@ -83,7 +112,7 @@
 
                     if ( showPath ) {
                         if ( node.intersection === Cars[0].startingNode.intersection || node.intersection === Cars[0].destinationNode.intersection ) {
-                            color = "green";
+                            color = "black";
                         }
                     }
 
@@ -125,6 +154,37 @@
                 // root.appendChild(canvas);
             };
 
+            const displayDjikstra = (car, path, nodes) => {
+                document.getElementById("startingNode")
+                    .appendChild(document.createTextNode(car.startingNode.intersection));
+
+                document.getElementById("destinationNode")
+                    .appendChild(document.createTextNode( car.destinationNode.intersection));
+
+                const table = document.getElementById("previous");
+
+                car.path.forEach((previousNode, index) => {
+                    const sourceNode = nodes[index];
+
+                    const tr = document.createElement("tr");
+
+                    // Source = nodes[index]
+                    const sourceCell = document.createElement("td");
+                    sourceCell.appendChild(document.createTextNode(sourceNode.intersection));
+                    tr.appendChild(sourceCell);
+
+                    // Previous = path[index]
+                    const prevCell = document.createElement("td");
+                    prevCell.appendChild(document.createTextNode(previousNode ? previousNode.intersection : " "));
+                    tr.appendChild(prevCell);
+
+                    table.appendChild(tr);
+                });
+
+                document.getElementById("path")
+                    .appendChild(document.createTextNode(path.join(", ")));
+            }
+
             window.addEventListener("load", () => {
                 fetch("http://localhost:3000/renderGraph", { method: "POST" })
                     .then(res => res.json())
@@ -132,11 +192,15 @@
                         const Intersections = data.Nodes;
                         const Roads = data.Edges;
                         const Cars = data.Cars;
+                        const path = data.path;
 
                         const showPath = true;
 
                         renderGraph(Intersections, Roads, Cars, showPath);
-                        // displayPath(Cars)
+
+                        displayDjikstra(Cars[0], path, Intersections);
+                        
+
 
                         console.log("Starting Node:", Cars[0].startingNode.intersection, "\nDestination Node:", Cars[0].destinationNode.intersection);
                         // console.log(Cars[0].path.map((el, index) => {

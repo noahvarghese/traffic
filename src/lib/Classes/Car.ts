@@ -6,10 +6,10 @@ export default class Car implements CarAttributes {
     public startingNode: Node;
     public destinationNode: Node;
     public currentLocation: Road<CarAttributes> | Node;
-    // public path: (Node | undefined)[];
-    public path: string[];
+    public path: (Node | undefined)[];
+    // public path: string[];
 
-    constructor(_startingNode: Node, _destinationNode: Node, _path: string[]) {
+    constructor(_startingNode: Node, _destinationNode: Node, _path: (Node | undefined)[]) {
         this.startingNode = _startingNode;
         this.destinationNode = _destinationNode;
         this.path = _path;

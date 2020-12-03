@@ -1,4 +1,5 @@
 import { exit } from "process";
+import Car from "../Classes/Car";
 import Edge from "../Classes/Edge";
 import Node from "../Classes/Node";
 import { EuclidianDistance } from "./TrafficLightSystem";
@@ -20,7 +21,7 @@ export default (
     nodes: Node[], 
     edges: Edge[],
     useAStar: boolean = true
-): string[] => {
+): (Node | undefined)[] => {
     // console.log(`Starting: ${startingNode.intersection}`);
     // console.log(`Ending: ${endNode.intersection}`);
 
@@ -79,19 +80,22 @@ export default (
 
     // console.log(previous);
     // return { distance, previous };
-    const path = orderPath(startingNode.intersection, endNode.intersection, previous, nodes)
-    // return previous;
-    return path;
+    // const path = orderPath(startingNode.intersection, endNode.intersection, previous, nodes)
+    return previous;
+    // return path;
 };
 
-const orderPath = (start: string, destination: string, _previous: (Node | undefined)[], nodes: Node[]) => {
+export const orderPath = (car: Car, nodes: Node[]) => {
+    const destination = car.destinationNode.intersection;
+    const previous = car.path;
+
     const path: string[] = [];
     const nodeToNode: any = {}
 
     // assemble link between source and destination nodes
     // key = destination
     // value = previous
-    _previous.forEach((node: Node | undefined, index: number) => {
+    previous.forEach((node: Node | undefined, index: number) => {
         if ( node ) {
             const key = nodes[index].intersection;
             const value = node.intersection;

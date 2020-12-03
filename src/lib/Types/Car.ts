@@ -9,6 +9,6 @@ export default interface Car {
     startingNode: Node;
     destinationNode: Node;
     currentLocation: Road<Car> | Node;
-    // path: (Node | undefined)[];
-    path: string[];
+    path: (Node | undefined)[];
+    // path: string[];
 }
