@@ -5,39 +5,149 @@
         <meta charset="utf-8" />
     </head>
     <body>
-        <div id="root"></div>
+        <div id="root">
+            <canvas id="map" width="1200px" height="900px"></canvas>
+        </div>
         <script type="text/javascript">
 
-            const YFromLatitude = latitude => latitude + 90;
-            const XFromLongitude = longitude => longitude + 180;
+            // Usage: 
+            // drawLineWithArrows(50,50,150,50,5,8,true,true);
 
-            const renderGraph = (Nodes, Edges) => {
+            // x0,y0: the line's starting point
+            // x1,y1: the line's ending point
+            // width: the distance the arrowhead perpendicularly extends away from the line
+            // height: the distance the arrowhead extends backward from the endpoint
+            // arrowStart: true/false directing to draw arrowhead at the line's starting point
+            // arrowEnd: true/false directing to draw arrowhead at the line's ending point
+
+            function drawLineWithArrows(x0,y0,x1,y1,aWidth,aLength,arrowStart,arrowEnd, ctx, inPath){
+                var dx=x1-x0;
+                var dy=y1-y0;
+                var angle=Math.atan2(dy,dx);
+                var length=Math.sqrt(dx*dx+dy*dy);
+                //
+                let color = "#000000";
+
+                if ( inPath ) {
+                    color = "#00FF00";
+                }
+
+                ctx.fillStyle = color;
+
+                ctx.translate(x0,y0);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(0,0);
+                ctx.lineTo(length,0);
+                if(arrowStart){
+                    ctx.moveTo(aLength,-aWidth);
+                    ctx.lineTo(0,0);
+                    ctx.lineTo(aLength,aWidth);
+                }
+                if(arrowEnd){
+                    ctx.moveTo(length-aLength,-aWidth);
+                    ctx.lineTo(length,0);
+                    ctx.lineTo(length-aLength,aWidth);
+                }
+                //
+                ctx.stroke();
+                ctx.setTransform(1,0,0,1,0,0);
+            }
+
+            // increase by 1000 as otherwise scale is too small
+            const YFromLatitude = latitude => (((latitude + 90) * 10) - 1332) * 2000 - 800;
+            const XFromLongitude = longitude => (((longitude + 180) * 10) - 1001) * 2000 - 400;
+            const scale = (input, factor = 5) => input * factor;
+            const randomColor = () => Math.floor(Math.random()*16777215).toString(16);
+
+            const renderGraph = (Nodes, Edges, Cars, showPath) => {
                 // latitudes go 90 degress (north) and -90 degress (south)
                 const latitudes = 180;
                 // longitudes go 180 degress (east) and -180 degress (west)
                 const longitudes = 360;
 
                 const root = document.getElementById("root");
-                const canvas = document.createElement("canvas");
+                const canvas = document.getElementById("map");
+
                 const ctx = canvas.getContext("2d");
-                
-                ctx.canvas.width  = window.innerWidth;
-                ctx.canvas.height = window.innerHeight;
+                ctx.font = "16px Arial";
+
+                // ctx.canvas.width  = canvas.style.width;
+                // ctx.canvas.height = canvas.style.height;
 
                 for ( let node of Nodes ) {
-                    ctx.fillRect(XFromLongitude(node.location.longitude), YFromLatitude(node.location.latitude));
+                    // console.log(node.intersection)
+                    
+
+                    let color = `#${randomColor()}`;
+
+                    if ( showPath ) {
+                        if ( node.intersection === Cars[0].startingNode.intersection || node.intersection === Cars[0].destinationNode.intersection ) {
+                            color = "green";
+                        }
+                    }
+
+                    ctx.fillStyle = color;
+
+                    const x = XFromLongitude(node.location.longitude);
+                    const y = YFromLatitude(node.location.latitude);
+
+                    // console.log(x, y, color);
+
+                    ctx.fillRect(x, y, 10, 10);
+                    ctx.fillText(node.intersection, x, y - 5);
                 }
 
-                root.appendChild(canvas);
+                for ( let edge of Edges ) {
+
+                    let inPath = false;
+
+                    if ( showPath ) {
+                        const pathPrevIndex = Cars[0].path.indexOf(edge.startingNodeIntersection);
+                        const pathNextIndex = Cars[0].path.indexOf(edge.endingNodeIntersection);
+                        if ( pathPrevIndex > -1 && (pathNextIndex === (pathPrevIndex + 1)) ) {
+                            inPath = true;
+                        }
+                    }
+
+                    const startingNode = Nodes.find((node) => edge.startingNodeIntersection === node.intersection);
+                    const startingX = XFromLongitude(startingNode.location.longitude);
+                    const startingY = YFromLatitude(startingNode.location.latitude);
+
+                    const endingNode = Nodes.find((node) => edge.endingNodeIntersection === node.intersection);
+
+                    const endingX = XFromLongitude(endingNode.location.longitude);
+                    const endingY = YFromLatitude(endingNode.location.latitude);
+
+                    drawLineWithArrows(startingX, startingY, endingX, endingY, 10, 25, false, true, ctx, inPath);
+                }
+
+                // root.appendChild(canvas);
             };
 
             window.addEventListener("load", () => {
                 fetch("http://localhost:3000/renderGraph", { method: "POST" })
-                    .then(res => res.data)
+                    .then(res => res.json())
                     .then(data => {
                         const Intersections = data.Nodes;
                         const Roads = data.Edges;
-                        renderGraph(Intersections, Roads);
+                        const Cars = data.Cars;
+
+                        const showPath = true;
+
+                        renderGraph(Intersections, Roads, Cars, showPath);
+                        // displayPath(Cars)
+
+                        console.log("Starting Node:", Cars[0].startingNode.intersection, "\nDestination Node:", Cars[0].destinationNode.intersection);
+                        // console.log(Cars[0].path.map((el, index) => {
+                        //     let message = "Destination node: " + Intersections[index].intersection + "\n" + "Previous node: ";
+                        //     if ( el ) {
+                        //         message += el.intersection;
+                        //     }
+                        //     return message;
+                        // }).join("\n\n"));
+                        console.log(Cars[0].path.join(", "))
+
                     })
                     .catch(err => console.error(err));
             });

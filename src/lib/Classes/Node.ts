@@ -24,7 +24,13 @@ export default class Node implements NodeAttributes {
     }
 
     static FindNodeByIntersection = (intersection: string, Nodes: Node[]) => {
-        return Nodes.find((node) => node.intersection === intersection)
+        const node = Nodes.find((node) => node.intersection === intersection);
+
+        if ( ! node ) {
+            throw new Error(`No node found for intersection: ${intersection}`)
+        }
+
+        return node;
     }
 
 }

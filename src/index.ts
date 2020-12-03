@@ -46,23 +46,23 @@ InitTrafficLights(Intersections);
 
 
 // create cars
-const numberOfVehicles: number = 1;
-const cars: Car[] = [];
+// const numberOfVehicles: number = 1;
+// const cars: Car[] = [];
 
-console.log("Started");
+// console.log("Started");
 
-for ( let i = 0; i < numberOfVehicles; i++ ) {
-    const startingNode: Node = Intersections[ random(Intersections.length) ];
-    const endingNode: Node = Intersections[ random(Intersections.length) ];
+// for ( let i = 0; i < numberOfVehicles; i++ ) {
+//     const startingNode: Node = Intersections[ random(Intersections.length) ];
+//     const endingNode: Node = Intersections[ random(Intersections.length) ];
 
-    const car = new Car(
-       startingNode,
-       endingNode,
-       Djikstra(startingNode, endingNode, Intersections, Roads, useAStar)
-    );
+//     const car = new Car(
+//        startingNode,
+//        endingNode,
+//        Djikstra(startingNode, endingNode, Intersections, Roads, useAStar)
+//     );
 
-    cars.push(car);
-}
+//     cars.push(car);
+// }
 
 
 
@@ -84,11 +84,29 @@ for ( let i = 0; i < numberOfVehicles; i++ ) {
     });
 
     app.post("/renderGraph", (_, res) => {
-        res.send({ Nodes: Intersections, Edges: Roads });
+
+        // create cars
+        const numberOfVehicles: number = 1;
+        const cars: Car[] = [];
+
+        for ( let i = 0; i < numberOfVehicles; i++ ) {
+            const startingNode: Node = Intersections[ random(Intersections.length) ];
+            const endingNode: Node = Intersections[ random(Intersections.length) ];
+
+            const car = new Car(
+            startingNode,
+            endingNode,
+            Djikstra(startingNode, endingNode, Intersections, Roads, useAStar)
+            );
+
+            cars.push(car);
+        }
+
+        res.send({ Nodes: Intersections, Edges: Roads, Cars: cars });
     });
 
     const port = 3000;
     app.listen(port, () => {
         console.log(`Server started on port ${port}`);
-    })
+    });
 })();

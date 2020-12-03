@@ -4,7 +4,13 @@ export default interface TrafficLight {
     color: TrafficLightColor;
     maxGreenTime: number;
     minGreenTime: number;
-    intersection: Node;
+    intersection: string;
+    orientation: Orientation;
+}
+
+export enum Orientation {
+    vertical = "vertical",
+    horizontal ="horizontal"
 }
 
 export enum TrafficLightColor {

@@ -3,6 +3,7 @@ import Node from "../Classes/Node";
 import Edge from "../Classes/Edge";
 import TrafficLight from "../Classes/TrafficLight";
 import { TrafficLightsAtIntersection } from "../Types/Node";
+import { Orientation } from "../Types/TrafficLight";
 
 export class IntervalTimer {
 
@@ -96,6 +97,7 @@ export const LoadEdges = (path: string, nodes: Node[]): Edge[] => {
         data.forEach((el: any) => {
             edges.push(
                 new Edge(
+                    el.streetName,
                     el.distance,
                     el.start,
                     el.end,
@@ -150,13 +152,15 @@ export const InitTrafficLights = (Nodes: Node[]) => {
         };
 
         if ( node.incomingRoads?.westEdge || node.incomingRoads?.eastEdge ) {
-            tmpTrafficLights.eastWestLights = new TrafficLight(node);
+            tmpTrafficLights.eastWestLights = new TrafficLight(node.intersection, Orientation.horizontal);
         }
 
         if ( node.incomingRoads?.northEdge || node.incomingRoads?.southEdge ) {
-            tmpTrafficLights.northSouthLights = new TrafficLight(node);
+            tmpTrafficLights.northSouthLights = new TrafficLight(node.intersection, Orientation.vertical);
         }
 
         node.trafficLights = tmpTrafficLights;
     }
 }
+
+export const randomHex = () => Math.floor(Math.random()*16777215).toString(16);

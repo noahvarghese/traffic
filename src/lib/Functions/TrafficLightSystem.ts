@@ -1,4 +1,4 @@
-import Node from "../Types/Node";
+import Node from "../Classes/Node";
 import TrafficLight, { TrafficLightColor } from "../Types/TrafficLight";
 import { IntervalTimer } from "./Functions";
 
@@ -30,32 +30,34 @@ enum Directions {
     west = "West"
 }
 
-const TrafficWaiting = (currentLight: TrafficLight): boolean => {
+const TrafficWaiting = (currentLight: TrafficLight, nodes: Node[]): boolean => {
 
     let trafficWaiting = false;
 
     // If the current direction is headed east and west, check north and south incoming roads
-    if ( currentLight === currentLight.intersection.trafficLights?.eastWestLights ) {
-        if ( currentLight.intersection.incomingRoads?.northEdge ) {
-            if ( currentLight.intersection.incomingRoads.northEdge.queue.peek() !== null ) {
+    const currentIntersection = Node.FindNodeByIntersection(currentLight.intersection, nodes);
+
+    if ( currentLight === currentIntersection.trafficLights?.eastWestLights ) {
+        if ( currentIntersection.incomingRoads?.northEdge ) {
+            if ( currentIntersection.incomingRoads?.northEdge?.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }
-        if ( currentLight.intersection.incomingRoads?.southEdge ) {
-            if ( currentLight.intersection.incomingRoads.southEdge.queue.peek() !== null ) {
+        if ( currentIntersection.incomingRoads?.southEdge ) {
+            if ( currentIntersection.incomingRoads.southEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }
     } 
     // if current direction is headed north and south, check east and west incoming roads
     else {
-        if ( currentLight.intersection.incomingRoads?.eastEdge ) {
-            if ( currentLight.intersection.incomingRoads.eastEdge.queue.peek() !== null ) {
+        if ( currentIntersection.incomingRoads?.eastEdge ) {
+            if ( currentIntersection.incomingRoads.eastEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }
-        if ( currentLight.intersection.incomingRoads?.westEdge ) {
-            if ( currentLight.intersection.incomingRoads.westEdge.queue.peek() !== null ) {
+        if ( currentIntersection.incomingRoads?.westEdge ) {
+            if ( currentIntersection.incomingRoads.westEdge.queue.peek() !== null ) {
                 trafficWaiting = true;
             }
         }    
@@ -67,7 +69,7 @@ const TrafficWaiting = (currentLight: TrafficLight): boolean => {
     return trafficWaiting;
 };
 
-const ChangeLights = (currentLight: TrafficLight, lightsChanging: boolean) => {
+const ChangeLights = (currentLight: TrafficLight, lightsChanging: boolean, nodes: Node[]) => {
 
     if (lightsChanging) return;
 
@@ -77,40 +79,44 @@ const ChangeLights = (currentLight: TrafficLight, lightsChanging: boolean) => {
     currentLight.color = TrafficLightColor.yellow;
 
     setTimeout(() => {
-        if ( currentLight.intersection.trafficLights ) {
-            if ( currentLight === currentLight.intersection.trafficLights?.northSouthLights ) {
-                currentLight.intersection.trafficLights.eastWestLights!.color = TrafficLightColor.green
+        const currentIntersection = Node.FindNodeByIntersection(currentLight.intersection, nodes);
+
+        if ( currentIntersection.trafficLights ) {
+            if ( currentLight === currentIntersection.trafficLights?.northSouthLights ) {
+                currentIntersection.trafficLights.eastWestLights!.color = TrafficLightColor.green
             } else {
-                currentLight.intersection.trafficLights.northSouthLights!.color = TrafficLightColor.green;
+                currentIntersection.trafficLights.northSouthLights!.color = TrafficLightColor.green;
             }
 
             currentLight.color = TrafficLightColor.red;
             
-            if ( currentLight === currentLight.intersection.trafficLights.eastWestLights ) {
-                currentLight = currentLight.intersection.trafficLights.northSouthLights!;
+            if ( currentLight === currentIntersection.trafficLights.eastWestLights ) {
+                currentLight = currentIntersection.trafficLights.northSouthLights!;
             } else {
-                currentLight = currentLight.intersection.trafficLights.eastWestLights!;
+                currentLight = currentIntersection.trafficLights.eastWestLights!;
             }
         }
 
-        SwapLights(currentLight);        
+        SwapLights(currentLight, nodes);        
         lightsChanging = false;
     }, TimePerFrame(yellowTimerLength))
 };
 
-const CheckForBreak = (currentLight: TrafficLight): boolean => {
-    if ( currentLight === currentLight.intersection.trafficLights?.northSouthLights ) {
+const CheckForBreak = (currentLight: TrafficLight, nodes: Node[]): boolean => {
+    const currentIntersection = Node.FindNodeByIntersection(currentLight.intersection, nodes);
+
+    if ( currentLight === currentIntersection.trafficLights?.northSouthLights ) {
         if ( 
-            currentLight.intersection.incomingRoads?.eastEdge?.queue.peek({ index: 12 }) === null && 
-            currentLight.intersection.incomingRoads?.westEdge?.queue.peek({ index: 12 }) === null
+            currentIntersection.incomingRoads?.eastEdge?.queue.peek({ index: 12 }) === null && 
+            currentIntersection.incomingRoads?.westEdge?.queue.peek({ index: 12 }) === null
           ) {
             return true;
         }
     }
     else {
         if ( 
-            currentLight.intersection.incomingRoads?.northEdge?.queue.peek({ index: 12 }) === null &&
-            currentLight.intersection.incomingRoads?.southEdge?.queue.peek({ index: 12 }) === null
+            currentIntersection.incomingRoads?.northEdge?.queue.peek({ index: 12 }) === null &&
+            currentIntersection.incomingRoads?.southEdge?.queue.peek({ index: 12 }) === null
         ) {
             return true;
         }
@@ -119,12 +125,19 @@ const CheckForBreak = (currentLight: TrafficLight): boolean => {
     return false;
 };
 
-const SwapLights = (currentLight: TrafficLight) => currentLight = 
-                                                        currentLight === currentLight.intersection.trafficLights?.eastWestLights ? 
-                                                            currentLight.intersection.trafficLights.northSouthLights! :
-                                                            currentLight.intersection.trafficLights?.eastWestLights!;
+const SwapLights = (currentLight: TrafficLight, nodes: Node[]) => {
+    const currentIntersection = Node.FindNodeByIntersection(currentLight.intersection, nodes);
+    if ( currentLight === currentIntersection.trafficLights?.eastWestLights ) { 
+        currentLight = currentIntersection.trafficLights.northSouthLights! 
+    } else {
+        currentLight = currentIntersection.trafficLights?.eastWestLights!;
+    }
 
-export const TrafficLightSystem = (horizontalTrafficLight: TrafficLight, verticalTrafficLight: TrafficLight) => {
+    // give the option on returning it as opposed to modifying the value of reference that was passed in
+    return currentLight;
+}
+
+export const TrafficLightSystem = (horizontalTrafficLight: TrafficLight, verticalTrafficLight: TrafficLight, Nodes: Node[]) => {
 
     const currentLight: TrafficLight = horizontalTrafficLight.color === TrafficLightColor.green ? horizontalTrafficLight : verticalTrafficLight;
 
@@ -132,7 +145,7 @@ export const TrafficLightSystem = (horizontalTrafficLight: TrafficLight, vertica
 
     // Start min green timer
     const minGreenTimer = new IntervalTimer(() => {
-        ChangeLights(currentLight, lightsChanging);
+        ChangeLights(currentLight, lightsChanging, Nodes);
     }, TimePerFrame(currentLight.minGreenTime));
 
     let maxGreenTimer: IntervalTimer;
@@ -142,7 +155,7 @@ export const TrafficLightSystem = (horizontalTrafficLight: TrafficLight, vertica
 
         // If conflicting traffic detected AND max green timer has been started AND min green timer has been paused
         if ( 
-            TrafficWaiting(currentLight) && 
+            TrafficWaiting(currentLight, Nodes) && 
             ! maxGreenTimer.isRunning() &&
              minGreenTimer.isRunning() 
         ) {
@@ -152,14 +165,14 @@ export const TrafficLightSystem = (horizontalTrafficLight: TrafficLight, vertica
             
             // start max green timer
             maxGreenTimer = new IntervalTimer(() => {
-                ChangeLights(currentLight, lightsChanging);
+                ChangeLights(currentLight, lightsChanging, Nodes);
             }, TimePerFrame(currentLight.maxGreenTime));
         }
 
         else if ( maxGreenTimer.isRunning() && ! minGreenTimer.isRunning() ) {
-            if ( CheckForBreak(currentLight) ) {
+            if ( CheckForBreak(currentLight, Nodes) ) {
                 maxGreenTimer.pause();
-                ChangeLights(currentLight, lightsChanging);
+                ChangeLights(currentLight, lightsChanging, Nodes);
             }
         }
 

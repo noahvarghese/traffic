@@ -20,9 +20,9 @@ export default (
     nodes: Node[], 
     edges: Edge[],
     useAStar: boolean = true
-): (Node | undefined)[] => {
-    console.log(`Starting: ${startingNode.intersection}`);
-    console.log(`Ending: ${endNode.intersection}`);
+): string[] => {
+    // console.log(`Starting: ${startingNode.intersection}`);
+    // console.log(`Ending: ${endNode.intersection}`);
 
     // deep copy one liner
     let vertexSet: Node[] = [];
@@ -77,7 +77,42 @@ export default (
         u = vertexSet[ index ]
     }
 
-    console.log(previous);
+    // console.log(previous);
     // return { distance, previous };
-    return previous;
+    const path = orderPath(startingNode.intersection, endNode.intersection, previous, nodes)
+    // return previous;
+    return path;
 };
+
+const orderPath = (start: string, destination: string, _previous: (Node | undefined)[], nodes: Node[]) => {
+    const path: string[] = [];
+    const nodeToNode: any = {}
+
+    // assemble link between source and destination nodes
+    // key = destination
+    // value = previous
+    _previous.forEach((node: Node | undefined, index: number) => {
+        if ( node ) {
+            const key = nodes[index].intersection;
+            const value = node.intersection;
+            nodeToNode[key] = value;
+        }
+    });
+
+    // get only nodes that make a path from destination to source
+    let destinationNode = destination;
+    let previousNode = nodeToNode[destinationNode];
+
+    path.push(destinationNode);
+
+    while ( previousNode ) {
+        console.log(`Destination: ${destinationNode}`)
+        destinationNode = previousNode;
+        previousNode = nodeToNode[destinationNode];
+        path.push(destinationNode);
+    }
+
+    // path.push(start);
+    // return reversed so the start is the first index
+    return path.reverse();
+}
