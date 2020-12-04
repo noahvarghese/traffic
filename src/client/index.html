@@ -21,7 +21,7 @@
     </head>
     <body>
         <div id="root">
-            <div id="conatiner">
+            <div id="container">
                 <h1>Djikstra</h1>
                 <ul>
                     <li id="startingNode"><strong>Starting Node:</strong> </li>
@@ -132,8 +132,8 @@
                     let inPath = false;
 
                     if ( showPath ) {
-                        const pathPrevIndex = Cars[0].path.indexOf(edge.startingNodeIntersection);
-                        const pathNextIndex = Cars[0].path.indexOf(edge.endingNodeIntersection);
+                        const pathPrevIndex = Object.keys(Cars[0].path).find((key) => Cars[0].path[key] === edge.startingNodeIntersection);
+                        const pathNextIndex = Object.keys(Cars[0].path).find((key) => Cars[0].path[key] === edge.endingNodeIntersection);
                         if ( pathPrevIndex > -1 && (pathNextIndex === (pathPrevIndex + 1)) ) {
                             inPath = true;
                         }
@@ -163,8 +163,8 @@
 
                 const table = document.getElementById("previous");
 
-                car.path.forEach((previousNode, index) => {
-                    const sourceNode = nodes[index];
+                Object.entries(car.path).forEach(([key, value]) => {
+                    const sourceNode = nodes.find((node) => node.intersection === key);
 
                     const tr = document.createElement("tr");
 
@@ -174,6 +174,7 @@
                     tr.appendChild(sourceCell);
 
                     // Previous = path[index]
+                    const previousNode = car.path[key];
                     const prevCell = document.createElement("td");
                     prevCell.appendChild(document.createTextNode(previousNode ? previousNode.intersection : " "));
                     tr.appendChild(prevCell);
@@ -181,6 +182,7 @@
                     table.appendChild(tr);
                 });
 
+                console.log(path)
                 document.getElementById("path")
                     .appendChild(document.createTextNode(path.join(", ")));
             }
@@ -193,6 +195,7 @@
                         const Roads = data.Edges;
                         const Cars = data.Cars;
                         const path = data.path;
+                        console.log(Cars[0])
 
                         const showPath = true;
 
@@ -210,7 +213,7 @@
                         //     }
                         //     return message;
                         // }).join("\n\n"));
-                        console.log(Cars[0].path.join(", "))
+                        console.log(Object.entries(Cars[0].path).map(([key, value]) => (`[${key}, ${value}]`)).join(", "));
 
                     })
                     .catch(err => console.error(err));

@@ -4,7 +4,7 @@ import path from "path";
 import Node from "./lib/Classes/Node";
 import Edge from "./lib/Classes/Edge";
 import Car from "./lib/Classes/Car";
-import Djikstra, { orderPath } from "./lib/Functions/Djikstra";
+import Djikstra, { orderPath, shortestPath } from "./lib/Functions/Djikstra";
 import { LoadNodes, LoadEdges, random, LinkNodesAndEdges, InitTrafficLights } from "./lib/Functions/Functions";
 
 
@@ -102,7 +102,7 @@ InitTrafficLights(Intersections);
             cars.push(car);
         }
 
-        res.send({ Nodes: Intersections, Edges: Roads, Cars: cars, path: orderPath(cars[0], Intersections) });
+        res.send({ Nodes: Intersections, Edges: Roads, Cars: cars, path: shortestPath(cars[0])});
     });
 
     const port = 3000;
