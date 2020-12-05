@@ -1,4 +1,18 @@
+import Edge from "../Classes/Edge";
 import Node from "../Classes/Node";
+import { EuclidianDistance } from "./TrafficLightSystem";
+
+const getCost = (edge: Edge, targetNode: Node, nodes: Node[]) => {
+    const density = edge.queue.density();
+    const distance = edge.distance;
+
+    const flowRate = density * distance;
+
+    const distanceFromDestination = EuclidianDistance(Node.FindNodeByIntersection(edge.endingNodeIntersection, Nodes)!, targetNode);
+
+    return distanceFromDestination + flowRate;
+    
+};
 
 export const aStar = (nodes: Node[], start: string, end: string) => {
     const startNode = Node.FindNodeByIntersection(start, nodes);
