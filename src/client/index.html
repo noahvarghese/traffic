@@ -13,7 +13,10 @@
                 margin-top: 2rem;
             }
 
-            table, tr, td, th {
+            table,
+            tr,
+            td,
+            th {
                 border-collapse: collapse;
                 border: 1px solid black;
             }
@@ -24,8 +27,10 @@
             <div id="container">
                 <h1>Djikstra</h1>
                 <ul>
-                    <li id="startingNode"><strong>Starting Node:</strong> </li>
-                    <li id="destinationNode"><strong>Destination Node:</strong> </li>
+                    <li id="startingNode"><strong>Starting Node:</strong></li>
+                    <li id="destinationNode">
+                        <strong>Destination Node:</strong>
+                    </li>
                 </ul>
                 <table id="previous">
                     <tr>
@@ -38,8 +43,7 @@
             <canvas id="map" width="1200px" height="900px"></canvas>
         </div>
         <script type="text/javascript">
-
-            // Usage: 
+            // Usage:
             // drawLineWithArrows(50,50,150,50,5,8,true,true);
 
             // x0,y0: the line's starting point
@@ -49,45 +53,59 @@
             // arrowStart: true/false directing to draw arrowhead at the line's starting point
             // arrowEnd: true/false directing to draw arrowhead at the line's ending point
 
-            function drawLineWithArrows(x0,y0,x1,y1,aWidth,aLength,arrowStart,arrowEnd, ctx, inPath){
-                var dx=x1-x0;
-                var dy=y1-y0;
-                var angle=Math.atan2(dy,dx);
-                var length=Math.sqrt(dx*dx+dy*dy);
+            function drawLineWithArrows(
+                x0,
+                y0,
+                x1,
+                y1,
+                aWidth,
+                aLength,
+                arrowStart,
+                arrowEnd,
+                ctx,
+                inPath
+            ) {
+                var dx = x1 - x0;
+                var dy = y1 - y0;
+                var angle = Math.atan2(dy, dx);
+                var length = Math.sqrt(dx * dx + dy * dy);
                 //
                 let color = "#000000";
 
-                if ( inPath ) {
+                if (inPath) {
                     color = "#00FF00";
                 }
 
                 ctx.fillStyle = color;
 
-                ctx.translate(x0,y0);
+                ctx.translate(x0, y0);
                 ctx.rotate(angle);
                 ctx.beginPath();
-                ctx.moveTo(0,0);
-                ctx.lineTo(length,0);
-                if(arrowStart){
-                    ctx.moveTo(aLength,-aWidth);
-                    ctx.lineTo(0,0);
-                    ctx.lineTo(aLength,aWidth);
+                ctx.moveTo(0, 0);
+                ctx.lineTo(length, 0);
+                if (arrowStart) {
+                    ctx.moveTo(aLength, -aWidth);
+                    ctx.lineTo(0, 0);
+                    ctx.lineTo(aLength, aWidth);
                 }
-                if(arrowEnd){
-                    ctx.moveTo(length-aLength,-aWidth);
-                    ctx.lineTo(length,0);
-                    ctx.lineTo(length-aLength,aWidth);
+                if (arrowEnd) {
+                    ctx.moveTo(length - aLength, -aWidth);
+                    ctx.lineTo(length, 0);
+                    ctx.lineTo(length - aLength, aWidth);
                 }
                 //
                 ctx.stroke();
-                ctx.setTransform(1,0,0,1,0,0);
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
             }
 
             // increase by 1000 as otherwise scale is too small
-            const YFromLatitude = latitude => (((latitude + 90) * 10) - 1332) * 2000 - 800;
-            const XFromLongitude = longitude => (((longitude + 180) * 10) - 1001) * 2000 - 400;
+            const YFromLatitude = (latitude) =>
+                ((latitude + 90) * 10 - 1332) * 2000 - 800;
+            const XFromLongitude = (longitude) =>
+                ((longitude + 180) * 10 - 1001) * 2000 - 400;
             const scale = (input, factor = 5) => input * factor;
-            const randomColor = () => Math.floor(Math.random()*16777215).toString(16);
+            const randomColor = () =>
+                Math.floor(Math.random() * 16777215).toString(16);
 
             const renderGraph = (Nodes, Edges, Cars, showPath) => {
                 // latitudes go 90 degress (north) and -90 degress (south)
@@ -104,14 +122,18 @@
                 // ctx.canvas.width  = canvas.style.width;
                 // ctx.canvas.height = canvas.style.height;
 
-                for ( let node of Nodes ) {
+                for (let node of Nodes) {
                     // console.log(node.intersection)
-                    
 
                     let color = `#${randomColor()}`;
 
-                    if ( showPath ) {
-                        if ( node.intersection === Cars[0].startingNode.intersection || node.intersection === Cars[0].destinationNode.intersection ) {
+                    if (showPath) {
+                        if (
+                            node.intersection ===
+                                Cars[0].startingNode.intersection ||
+                            node.intersection ===
+                                Cars[0].destinationNode.intersection
+                        ) {
                             color = "black";
                         }
                     }
@@ -127,96 +149,141 @@
                     ctx.fillText(node.intersection, x, y - 5);
                 }
 
-                for ( let edge of Edges ) {
-
+                for (let edge of Edges) {
                     let inPath = false;
 
-                    if ( showPath ) {
-                        const pathPrevIndex = Object.keys(Cars[0].path).find((key) => Cars[0].path[key] === edge.startingNodeIntersection);
-                        const pathNextIndex = Object.keys(Cars[0].path).find((key) => Cars[0].path[key] === edge.endingNodeIntersection);
-                        if ( pathPrevIndex > -1 && (pathNextIndex === (pathPrevIndex + 1)) ) {
+                    if (showPath) {
+                        const pathPrevIndex = Object.keys(Cars[0].path).find(
+                            (key) =>
+                                Cars[0].path[key] ===
+                                edge.startingNodeIntersection
+                        );
+                        const pathNextIndex = Object.keys(Cars[0].path).find(
+                            (key) =>
+                                Cars[0].path[key] ===
+                                edge.endingNodeIntersection
+                        );
+                        if (
+                            pathPrevIndex > -1 &&
+                            pathNextIndex === pathPrevIndex + 1
+                        ) {
                             inPath = true;
                         }
                     }
 
-                    const startingNode = Nodes.find((node) => edge.startingNodeIntersection === node.intersection);
-                    const startingX = XFromLongitude(startingNode.location.longitude);
-                    const startingY = YFromLatitude(startingNode.location.latitude);
+                    const startingNode = Nodes.find(
+                        (node) =>
+                            edge.startingNodeIntersection === node.intersection
+                    );
+                    const startingX = XFromLongitude(
+                        startingNode.location.longitude
+                    );
+                    const startingY = YFromLatitude(
+                        startingNode.location.latitude
+                    );
 
-                    const endingNode = Nodes.find((node) => edge.endingNodeIntersection === node.intersection);
+                    const endingNode = Nodes.find(
+                        (node) =>
+                            edge.endingNodeIntersection === node.intersection
+                    );
 
-                    const endingX = XFromLongitude(endingNode.location.longitude);
+                    const endingX = XFromLongitude(
+                        endingNode.location.longitude
+                    );
                     const endingY = YFromLatitude(endingNode.location.latitude);
 
-                    drawLineWithArrows(startingX, startingY, endingX, endingY, 10, 25, false, true, ctx, inPath);
+                    drawLineWithArrows(
+                        startingX,
+                        startingY,
+                        endingX,
+                        endingY,
+                        10,
+                        25,
+                        false,
+                        true,
+                        ctx,
+                        inPath
+                    );
                 }
 
                 // root.appendChild(canvas);
             };
 
             const displayDjikstra = (car, path, nodes) => {
-                document.getElementById("startingNode")
-                    .appendChild(document.createTextNode(car.startingNode.intersection));
+                document
+                    .getElementById("startingNode")
+                    .appendChild(
+                        document.createTextNode(car.startingNode.intersection)
+                    );
 
-                document.getElementById("destinationNode")
-                    .appendChild(document.createTextNode( car.destinationNode.intersection));
+                document
+                    .getElementById("destinationNode")
+                    .appendChild(
+                        document.createTextNode(
+                            car.destinationNode.intersection
+                        )
+                    );
 
                 const table = document.getElementById("previous");
 
                 Object.entries(car.path).forEach(([key, value]) => {
-                    const sourceNode = nodes.find((node) => node.intersection === key);
+                    const sourceNode = nodes.find(
+                        (node) => node.intersection === key
+                    );
 
                     const tr = document.createElement("tr");
 
                     // Source = nodes[index]
                     const sourceCell = document.createElement("td");
-                    sourceCell.appendChild(document.createTextNode(sourceNode.intersection));
+                    sourceCell.appendChild(
+                        document.createTextNode(sourceNode.intersection)
+                    );
                     tr.appendChild(sourceCell);
 
                     // Previous = path[index]
                     const previousNode = car.path[key];
                     const prevCell = document.createElement("td");
-                    prevCell.appendChild(document.createTextNode(previousNode ? previousNode.intersection : " "));
+                    prevCell.appendChild(document.createTextNode(previousNode));
                     tr.appendChild(prevCell);
 
                     table.appendChild(tr);
                 });
 
-                console.log(path)
-                document.getElementById("path")
+                console.log(path);
+                document
+                    .getElementById("path")
                     .appendChild(document.createTextNode(path.join(", ")));
-            }
+            };
 
             window.addEventListener("load", () => {
                 fetch("http://localhost:3000/renderGraph", { method: "POST" })
-                    .then(res => res.json())
-                    .then(data => {
+                    .then((res) => res.json())
+                    .then((data) => {
                         const Intersections = data.Nodes;
                         const Roads = data.Edges;
                         const Cars = data.Cars;
                         const path = data.path;
-                        console.log(Cars[0])
+                        console.log(Cars[0]);
 
                         const showPath = true;
 
                         renderGraph(Intersections, Roads, Cars, showPath);
 
                         displayDjikstra(Cars[0], path, Intersections);
-                        
 
-
-                        console.log("Starting Node:", Cars[0].startingNode.intersection, "\nDestination Node:", Cars[0].destinationNode.intersection);
-                        // console.log(Cars[0].path.map((el, index) => {
-                        //     let message = "Destination node: " + Intersections[index].intersection + "\n" + "Previous node: ";
-                        //     if ( el ) {
-                        //         message += el.intersection;
-                        //     }
-                        //     return message;
-                        // }).join("\n\n"));
-                        console.log(Object.entries(Cars[0].path).map(([key, value]) => (`[${key}, ${value}]`)).join(", "));
-
+                        console.log(
+                            "Starting Node:",
+                            Cars[0].startingNode.intersection,
+                            "\nDestination Node:",
+                            Cars[0].destinationNode.intersection
+                        );
+                        console.log(
+                            Object.entries(Cars[0].path)
+                                .map(([key, value]) => `[${key}, ${value}]`)
+                                .join(", ")
+                        );
                     })
-                    .catch(err => console.error(err));
+                    .catch((err) => console.error(err));
             });
         </script>
     </body>
